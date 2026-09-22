@@ -1,0 +1,310 @@
+<style>
+  .quiz-monitor-root {
+    width: 940;
+    padding: 32;
+    flex-direction: column;
+    gap: 20;
+    background-color: rgba(5, 15, 35, 0.98);
+    border-width: 2;
+    border-color: rgba(34, 211, 238, 0.72);
+    border-radius: 30;
+    pointer-events: auto;
+    pointer-events-order: 13000;
+  }
+
+  .quiz-monitor-header {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 18;
+    border-bottom-width: 1;
+    border-bottom-color: rgba(148, 163, 184, 0.24);
+  }
+
+  .quiz-header-copy {
+    width: 520;
+    flex-direction: column;
+    gap: 8;
+  }
+
+  .quiz-monitor-title {
+    color: #67e8f9;
+    font-size: 22;
+    font-weight: bold;
+  }
+
+  .quiz-question-title {
+    color: white;
+    font-size: 31;
+    font-weight: bold;
+  }
+
+  .quiz-monitor-summary {
+    color: #c4b5fd;
+    font-size: 17;
+  }
+
+  .quiz-monitor-close {
+    width: 58;
+    min-width: 58;
+    height: 58;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(239, 68, 68, 0.18);
+    border-width: 1;
+    border-color: rgba(248, 113, 113, 0.65);
+    border-radius: 29;
+    color: white;
+    font-size: 22;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto;
+    pointer-events-order: 13001;
+  }
+
+  .quiz-monitor-stop {
+    width: 150;
+    height: 48;
+    padding-left: 18;
+    padding-right: 18;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(220, 38, 38, 0.34);
+    border-width: 1;
+    border-color: #f87171;
+    border-radius: 14;
+    color: white;
+    font-size: 16;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto;
+    pointer-events-order: 13001;
+  }
+
+  .quiz-monitor-timer {
+    min-width: 92;
+    height: 48;
+    padding-left: 18;
+    padding-right: 18;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 21;
+    font-weight: bold;
+    background-color: rgba(8, 145, 178, 0.28);
+    border-width: 1;
+    border-color: #22d3ee;
+    border-radius: 16;
+  }
+
+  .quiz-monitor-controls {
+    width: 330;
+    flex-shrink: 0;
+    flex-direction: row;
+    align-items: center;
+    gap: 14;
+  }
+
+  .quiz-column-header {
+    width: 100%;
+    flex-direction: row;
+    padding-left: 18;
+    padding-right: 18;
+    color: #94a3b8;
+    font-size: 15;
+    font-weight: bold;
+  }
+
+  .quiz-student-list {
+    width: 100%;
+    flex-direction: column;
+    gap: 11;
+  }
+
+  .quiz-student-row {
+    width: 100%;
+    height: 70;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 18;
+    padding-right: 18;
+    background-color: rgba(30, 41, 59, 0.82);
+    border-width: 1;
+    border-color: rgba(148, 163, 184, 0.22);
+    border-radius: 14;
+  }
+
+  .quiz-row-hidden {
+    display: none;
+  }
+
+  .quiz-name-cell {
+    width: 210;
+    color: white;
+    font-size: 19;
+    font-weight: bold;
+  }
+
+  .quiz-answer-cell {
+    width: 270;
+    color: #bfdbfe;
+    font-size: 18;
+    font-weight: bold;
+  }
+
+  .quiz-result-cell {
+    width: 150;
+    color: #fcd34d;
+    font-size: 18;
+    font-weight: bold;
+  }
+
+  .quiz-time-cell {
+    width: 105;
+    color: #67e8f9;
+    font-size: 18;
+    font-weight: bold;
+  }
+
+  .quiz-result-correct {
+    color: #86efac;
+  }
+
+  .quiz-result-wrong {
+    color: #fca5a5;
+  }
+
+  .quiz-footer {
+    color: #94a3b8;
+    font-size: 15;
+    text-align: center;
+  }
+
+  .quiz-rank-cell {
+    width: 75;
+    color: #fcd34d;
+    font-size: 18;
+    font-weight: bold;
+  }
+
+  .quiz-paging-row {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 14;
+  }
+
+  .quiz-final-review {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    gap: 6;
+    padding: 12;
+    background-color: rgba(15, 23, 42, 0.9);
+    border-radius: 12;
+  }
+
+  .quiz-review-heading {
+    color: #67e8f9;
+    font-size: 15;
+    font-weight: bold;
+  }
+
+  .quiz-review-copy {
+    color: white;
+    font-size: 14;
+  }
+
+  .quiz-wrong-answers-button {
+    width: 220;
+    height: 46;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(217, 119, 6, 0.32);
+    border-width: 1;
+    border-color: #fbbf24;
+    border-radius: 13;
+    color: white;
+    font-size: 16;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto;
+    pointer-events-order: 13001;
+  }
+
+  .quiz-page-button {
+    width: 86;
+    height: 42;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(8, 145, 178, 0.28);
+    border-width: 1;
+    border-color: #22d3ee;
+    border-radius: 12;
+    color: white;
+    font-size: 15;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto;
+    pointer-events-order: 13001;
+  }
+
+  .quiz-page-label {
+    width: 130;
+    color: #c4b5fd;
+    font-size: 16;
+    font-weight: bold;
+    text-align: center;
+  }
+</style>
+
+<Panel class="quiz-monitor-root">
+  <Panel class="quiz-monitor-header">
+    <Panel class="quiz-header-copy">
+      <Text id="quiz-monitor-title" class="quiz-monitor-title">QUICK CHALLENGE — LIVE MONITOR</Text>
+      <Text id="quiz-monitor-question" class="quiz-question-title">Waiting for question</Text>
+      <Text id="quiz-monitor-summary" class="quiz-monitor-summary">0 of 0 students answered</Text>
+    </Panel>
+    <Panel class="quiz-monitor-controls">
+      <Text id="quiz-monitor-timer" class="quiz-monitor-timer">01:00</Text>
+      <Button id="quiz-monitor-stop" class="quiz-monitor-stop">STOP CHALLENGE</Button>
+      <!-- Use the basic X glyph because the UIKit font used by some Quest
+           runtimes renders the multiplication symbol as a square. -->
+      <Button id="quiz-monitor-close" class="quiz-monitor-close">X</Button>
+    </Panel>
+  </Panel>
+
+  <Panel class="quiz-column-header">
+    <Text class="quiz-rank-cell">RANK</Text>
+    <Text class="quiz-name-cell">STUDENT</Text>
+    <Text id="quiz-monitor-answer-header" class="quiz-answer-cell">SELECTED ANSWER</Text>
+    <Text class="quiz-time-cell">TIME</Text>
+    <Text id="quiz-monitor-result-header" class="quiz-result-cell">RESULT</Text>
+  </Panel>
+
+  <Panel class="quiz-student-list">
+    <Panel id="quiz-monitor-row-1" class="quiz-student-row"><Text id="quiz-monitor-rank-1" class="quiz-rank-cell">—</Text><Text id="quiz-monitor-name-1" class="quiz-name-cell">—</Text><Text id="quiz-monitor-answer-1" class="quiz-answer-cell">Waiting for answer</Text><Text id="quiz-monitor-time-1" class="quiz-time-cell">—</Text><Text id="quiz-monitor-result-1" class="quiz-result-cell">UNANSWERED</Text></Panel>
+    <Panel id="quiz-monitor-row-2" class="quiz-student-row"><Text id="quiz-monitor-rank-2" class="quiz-rank-cell">—</Text><Text id="quiz-monitor-name-2" class="quiz-name-cell">—</Text><Text id="quiz-monitor-answer-2" class="quiz-answer-cell">Waiting for answer</Text><Text id="quiz-monitor-time-2" class="quiz-time-cell">—</Text><Text id="quiz-monitor-result-2" class="quiz-result-cell">UNANSWERED</Text></Panel>
+    <Panel id="quiz-monitor-row-3" class="quiz-student-row"><Text id="quiz-monitor-rank-3" class="quiz-rank-cell">—</Text><Text id="quiz-monitor-name-3" class="quiz-name-cell">—</Text><Text id="quiz-monitor-answer-3" class="quiz-answer-cell">Waiting for answer</Text><Text id="quiz-monitor-time-3" class="quiz-time-cell">—</Text><Text id="quiz-monitor-result-3" class="quiz-result-cell">UNANSWERED</Text></Panel>
+    <Panel id="quiz-monitor-row-4" class="quiz-student-row"><Text id="quiz-monitor-rank-4" class="quiz-rank-cell">—</Text><Text id="quiz-monitor-name-4" class="quiz-name-cell">—</Text><Text id="quiz-monitor-answer-4" class="quiz-answer-cell">Waiting for answer</Text><Text id="quiz-monitor-time-4" class="quiz-time-cell">—</Text><Text id="quiz-monitor-result-4" class="quiz-result-cell">UNANSWERED</Text></Panel>
+    <Panel id="quiz-monitor-row-5" class="quiz-student-row"><Text id="quiz-monitor-rank-5" class="quiz-rank-cell">—</Text><Text id="quiz-monitor-name-5" class="quiz-name-cell">—</Text><Text id="quiz-monitor-answer-5" class="quiz-answer-cell">Waiting for answer</Text><Text id="quiz-monitor-time-5" class="quiz-time-cell">—</Text><Text id="quiz-monitor-result-5" class="quiz-result-cell">UNANSWERED</Text></Panel>
+    <Panel id="quiz-monitor-row-6" class="quiz-student-row"><Text id="quiz-monitor-rank-6" class="quiz-rank-cell">—</Text><Text id="quiz-monitor-name-6" class="quiz-name-cell">—</Text><Text id="quiz-monitor-answer-6" class="quiz-answer-cell">Waiting for answer</Text><Text id="quiz-monitor-time-6" class="quiz-time-cell">—</Text><Text id="quiz-monitor-result-6" class="quiz-result-cell">UNANSWERED</Text></Panel>
+    <Panel id="quiz-monitor-row-7" class="quiz-student-row"><Text id="quiz-monitor-rank-7" class="quiz-rank-cell">—</Text><Text id="quiz-monitor-name-7" class="quiz-name-cell">—</Text><Text id="quiz-monitor-answer-7" class="quiz-answer-cell">Waiting for answer</Text><Text id="quiz-monitor-time-7" class="quiz-time-cell">—</Text><Text id="quiz-monitor-result-7" class="quiz-result-cell">UNANSWERED</Text></Panel>
+    <Panel id="quiz-monitor-row-8" class="quiz-student-row"><Text id="quiz-monitor-rank-8" class="quiz-rank-cell">—</Text><Text id="quiz-monitor-name-8" class="quiz-name-cell">—</Text><Text id="quiz-monitor-answer-8" class="quiz-answer-cell">Waiting for answer</Text><Text id="quiz-monitor-time-8" class="quiz-time-cell">—</Text><Text id="quiz-monitor-result-8" class="quiz-result-cell">UNANSWERED</Text></Panel>
+    <Panel id="quiz-monitor-row-9" class="quiz-student-row"><Text id="quiz-monitor-rank-9" class="quiz-rank-cell">—</Text><Text id="quiz-monitor-name-9" class="quiz-name-cell">—</Text><Text id="quiz-monitor-answer-9" class="quiz-answer-cell">Waiting for answer</Text><Text id="quiz-monitor-time-9" class="quiz-time-cell">—</Text><Text id="quiz-monitor-result-9" class="quiz-result-cell">UNANSWERED</Text></Panel>
+    <Panel id="quiz-monitor-row-10" class="quiz-student-row"><Text id="quiz-monitor-rank-10" class="quiz-rank-cell">—</Text><Text id="quiz-monitor-name-10" class="quiz-name-cell">—</Text><Text id="quiz-monitor-answer-10" class="quiz-answer-cell">Waiting for answer</Text><Text id="quiz-monitor-time-10" class="quiz-time-cell">—</Text><Text id="quiz-monitor-result-10" class="quiz-result-cell">UNANSWERED</Text></Panel>
+  </Panel>
+
+  <Panel id="quiz-monitor-paging" class="quiz-paging-row">
+    <Button id="quiz-monitor-up" class="quiz-page-button">UP</Button>
+    <Text id="quiz-monitor-page" class="quiz-page-label">PAGE 1 / 1</Text>
+    <Button id="quiz-monitor-down" class="quiz-page-button">DOWN</Button>
+  </Panel>
+  <Panel id="quiz-monitor-final-review" class="quiz-final-review">
+    <Button id="quiz-monitor-wrong-answers" class="quiz-wrong-answers-button">VIEW COMMON MISTAKES</Button>
+  </Panel>
+  <Text id="quiz-monitor-footer" class="quiz-footer">The list updates as students submit.</Text>
+</Panel>

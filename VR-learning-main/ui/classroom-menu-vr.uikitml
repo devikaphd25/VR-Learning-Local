@@ -1,0 +1,189 @@
+<style>
+  .vr-menu-container {
+    flex-direction: column;
+    gap: 18px;
+    padding-top: 34px;
+    padding-bottom: 34px;
+    padding-left: 34px;
+    padding-right: 34px;
+    background-color: rgba(245, 248, 255, 0.16);
+    border-radius: 34px;
+    border: 2px solid rgba(255, 255, 255, 0.28);
+    min-width: 620px;
+    max-width: 760px;
+  }
+
+  .vr-menu-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .vr-menu-title {
+    font-size: 34px;
+    font-weight: 700;
+    font-family: inter;
+    color: #ffffff;
+  }
+
+  .vr-menu-close-btn {
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    color: #ffffff;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 22px;
+  }
+
+  .vr-controls-info {
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: rgba(255, 255, 255, 0.10);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .vr-control-text {
+    color: #e5e7eb;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: inter;
+  }
+
+  .vr-section {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .vr-section-title {
+    color: #bfdbfe;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: inter;
+  }
+
+  .vr-menu-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+  }
+
+  .vr-menu-item {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 22px;
+    padding-bottom: 22px;
+    padding-left: 24px;
+    padding-right: 24px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 22px;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    text-align: center;
+    min-width: 250px;
+    max-width: 300px;
+  }
+
+  .vr-menu-item:hover {
+    background: rgba(96, 165, 250, 0.35);
+    border-color: rgba(147, 197, 253, 0.8);
+  }
+
+  .vr-menu-label {
+    color: #ffffff;
+    font-size: 23px;
+    font-weight: 600;
+    font-family: inter;
+  }
+
+  .danger {
+    background: rgba(239, 68, 68, 0.18);
+    border-color: rgba(248, 113, 113, 0.35);
+  }
+
+  .menu-hidden {
+    display: none;
+  }
+
+  .menu-visible {
+    display: flex;
+  }
+</style>
+
+<Panel id="vr-menu-container" class="vr-menu-container menu-hidden">
+  <div id="vr-menu-header" class="vr-menu-header">
+    <span id="vr-menu-title" class="vr-menu-title">Classroom Controls</span>
+    <button id="vr-menu-close-btn" class="vr-menu-close-btn">✕</button>
+  </div>
+
+  <div id="vr-controls-info" class="vr-controls-info">
+    <span class="vr-control-text">Left Controller: X Toggle</span>
+    <span class="vr-control-text">|</span>
+    <span class="vr-control-text">Point + Trigger to Select</span>
+  </div>
+
+  <div class="vr-section">
+    <span class="vr-section-title">Communication</span>
+    <div class="vr-menu-grid">
+      <div id="vr-menu-item-raisehand" class="vr-menu-item" data-action="raisehand">
+        <div class="vr-menu-label">Raise Hand</div>
+      </div>
+
+      <div id="vr-menu-item-chat" class="vr-menu-item" data-action="chat">
+        <div class="vr-menu-label">Chat</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vr-section">
+    <span class="vr-section-title">Classroom</span>
+    <div class="vr-menu-grid">
+      <div id="vr-menu-item-participants" class="vr-menu-item" data-action="participants">
+        <div class="vr-menu-label">Participants</div>
+      </div>
+
+      <div id="vr-menu-item-presentation" class="vr-menu-item" data-action="presentation">
+        <div class="vr-menu-label">Presentation</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vr-section">
+    <span class="vr-section-title">Audio</span>
+    <div class="vr-menu-grid">
+      <div id="vr-menu-item-microphone" class="vr-menu-item" data-action="microphone">
+        <div class="vr-menu-label">Microphone</div>
+      </div>
+
+      <div id="vr-menu-item-speaker" class="vr-menu-item" data-action="speaker">
+        <div class="vr-menu-label">Speaker</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vr-section">
+    <span class="vr-section-title">System</span>
+    <div class="vr-menu-grid">
+      <div id="vr-menu-item-settings" class="vr-menu-item" data-action="settings">
+        <div class="vr-menu-label">Settings</div>
+      </div>
+
+      <div id="vr-menu-item-exit" class="vr-menu-item danger" data-action="exit">
+        <div class="vr-menu-label">Exit VR</div>
+      </div>
+    </div>
+  </div>
+</Panel>
+

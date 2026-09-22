@@ -1,0 +1,27 @@
+<style>
+  .card-face {
+    align-items: center;
+    justify-content: center;
+    width: 11;
+    height: 15;
+    padding: 0.5;
+    background-color: transparent;
+    border-color: transparent;
+    border-width: 0;
+    border-radius: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #value {
+    font-size: 2;
+    font-weight: bold;
+    color: #1a1a1a;
+    text-align: center;
+    white-space: pre;
+    transform-rotate-z:180 ;
+  }
+</style>
+<div class="card-face">
+  <div id="value">placeholder</div>
+</div>

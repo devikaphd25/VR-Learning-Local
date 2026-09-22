@@ -1,0 +1,172 @@
+<style>
+  .result-root {
+    width: 62;
+    padding: 4.5;
+    flex-direction: column;
+    gap: 2.2;
+    /* Keep the board and classroom from bleeding through the result in Quest. */
+    background-color: #060f1e;
+    border-width: 0.25;
+    border-color: rgba(52, 211, 153, 0.85);
+    border-radius: 3.2;
+    pointer-events: auto;
+    pointer-events-order: 16000;
+  }
+
+  .result-header {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .result-title {
+    color: white;
+    font-size: 3.6;
+    font-weight: bold;
+  }
+
+  .result-close {
+    width: 7;
+    height: 7;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(239, 68, 68, 0.28);
+    border-width: 0.2;
+    border-color: #f87171;
+    border-radius: 3.5;
+    color: white;
+    font-size: 2.5;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto;
+    pointer-events-order: 16001;
+  }
+
+  .result-status {
+    color: #86efac;
+    font-size: 2.3;
+    font-weight: bold;
+  }
+
+  .stat-row {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 1.2;
+    padding-bottom: 1.2;
+    border-bottom-width: 0.1;
+    border-bottom-color: rgba(148, 163, 184, 0.2);
+  }
+
+  .result-stats {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .stat-label {
+    color: #94a3b8;
+    font-size: 2;
+  }
+
+  .stat-value {
+    color: white;
+    font-size: 2.2;
+    font-weight: bold;
+  }
+
+  .challenge-review {
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    gap: 2;
+  }
+
+  .review-heading {
+    color: #67e8f9;
+    font-size: 2.2;
+    font-weight: bold;
+  }
+
+  .review-copy {
+    color: white;
+    font-size: 1.65;
+    line-height: 2.2;
+  }
+
+  .review-errors {
+    color: #fcd34d;
+  }
+
+  .review-answers {
+    color: #86efac;
+  }
+
+  .mistake-card {
+    width: 100%;
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    gap: 2;
+    padding: 1.2;
+    background-color: rgba(30, 41, 59, 0.82);
+    border-width: 0.12;
+    border-color: rgba(248, 113, 113, 0.55);
+    border-radius: 1.4;
+  }
+
+  .mistake-image {
+    width: 8;
+    height: 8;
+    flex-shrink: 0;
+    object-fit: fill;
+    border-radius: 1;
+  }
+
+  .mistake-copy {
+    flex-grow: 1;
+    flex-direction: column;
+    gap: 0.7;
+  }
+
+  .mistake-device {
+    color: white;
+    font-size: 1.8;
+    font-weight: bold;
+  }
+
+  .mistake-wrong {
+    color: #fca5a5;
+    font-size: 1.55;
+  }
+
+  .mistake-correct {
+    color: #86efac;
+    font-size: 1.55;
+    font-weight: bold;
+  }
+</style>
+
+<Panel class="result-root">
+  <Panel class="result-header">
+    <Text id="student-result-title" class="result-title">Python Lab Result</Text>
+    <Button id="student-result-close" class="result-close">X</Button>
+  </Panel>
+  <Text id="student-result-status" class="result-status">Completed</Text>
+  <Panel id="student-result-stats" class="result-stats">
+    <Panel id="student-result-score-row" class="stat-row"><Text class="stat-label">Score</Text><Text id="student-result-score" class="stat-value">0</Text></Panel>
+    <Panel class="stat-row"><Text class="stat-label">Correct answers</Text><Text id="student-result-correct" class="stat-value">0</Text></Panel>
+    <Panel class="stat-row"><Text class="stat-label">Mistakes</Text><Text id="student-result-mistakes" class="stat-value">0</Text></Panel>
+    <Panel class="stat-row"><Text class="stat-label">Accuracy</Text><Text id="student-result-accuracy" class="stat-value">0%</Text></Panel>
+    <Panel class="stat-row"><Text class="stat-label">Time</Text><Text id="student-result-time" class="stat-value">0 sec</Text></Panel>
+  </Panel>
+  <Panel id="student-challenge-review" class="challenge-review">
+    <Text class="review-heading">YOUR MISTAKES</Text>
+    <Text id="student-challenge-errors" class="review-copy review-errors">No mistakes</Text>
+    <Panel id="student-mistake-card-1" class="mistake-card"><Image id="student-mistake-image-1" class="mistake-image" src="/textures/quiz/challenge-2-items/webcam.png"/><Panel class="mistake-copy"><Text id="student-mistake-device-1" class="mistake-device">Device</Text><Text id="student-mistake-wrong-1" class="mistake-wrong">Your first answer</Text><Text id="student-mistake-correct-1" class="mistake-correct">Correct answer</Text></Panel></Panel>
+    <Panel id="student-mistake-card-2" class="mistake-card"><Image id="student-mistake-image-2" class="mistake-image" src="/textures/quiz/challenge-2-items/webcam.png"/><Panel class="mistake-copy"><Text id="student-mistake-device-2" class="mistake-device">Device</Text><Text id="student-mistake-wrong-2" class="mistake-wrong">Your first answer</Text><Text id="student-mistake-correct-2" class="mistake-correct">Correct answer</Text></Panel></Panel>
+    <Panel id="student-mistake-card-3" class="mistake-card"><Image id="student-mistake-image-3" class="mistake-image" src="/textures/quiz/challenge-2-items/webcam.png"/><Panel class="mistake-copy"><Text id="student-mistake-device-3" class="mistake-device">Device</Text><Text id="student-mistake-wrong-3" class="mistake-wrong">Your first answer</Text><Text id="student-mistake-correct-3" class="mistake-correct">Correct answer</Text></Panel></Panel>
+    <Panel id="student-mistake-card-4" class="mistake-card"><Image id="student-mistake-image-4" class="mistake-image" src="/textures/quiz/challenge-2-items/webcam.png"/><Panel class="mistake-copy"><Text id="student-mistake-device-4" class="mistake-device">Device</Text><Text id="student-mistake-wrong-4" class="mistake-wrong">Your first answer</Text><Text id="student-mistake-correct-4" class="mistake-correct">Correct answer</Text></Panel></Panel>
+    <Panel id="student-mistake-card-5" class="mistake-card"><Image id="student-mistake-image-5" class="mistake-image" src="/textures/quiz/challenge-2-items/webcam.png"/><Panel class="mistake-copy"><Text id="student-mistake-device-5" class="mistake-device">Device</Text><Text id="student-mistake-wrong-5" class="mistake-wrong">Your first answer</Text><Text id="student-mistake-correct-5" class="mistake-correct">Correct answer</Text></Panel></Panel>
+  </Panel>
+</Panel>

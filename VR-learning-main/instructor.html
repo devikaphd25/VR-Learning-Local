@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instructor Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f1117;
+            color: #e8eaed;
+            padding: 24px;
+            min-height: 100vh;
+        }
+
+        .dashboard {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: scale(1.02);
+        }
+
+        .stat-item .icon {
+            font-size: 18px;
+        }
+
+        .stat-item .count {
+            font-size: 20px;
+            font-weight: 700;
+            color: #60a5fa;
+        }
+
+        .stat-item .label {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .stat-item.present .count {
+            color: #22c55e;
+        }
+
+        .stat-item.absent .count {
+            color: #ef4444;
+        }
+
+        /* Instructor Controls */
+        .instructor-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .instructor-controls .label {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .instructor-mute-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 4px 12px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .instructor-mute-toggle:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .instructor-mute-toggle .icon {
+            font-size: 20px;
+        }
+
+        .instructor-mute-toggle .status {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-badge.online {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-dot.online {
+            background: #22c55e;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.05);
+            color: #e8eaed;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.02);
+        }
+
+        .action-btn.primary {
+            background: rgba(96, 165, 250, 0.15);
+            border-color: rgba(96, 165, 250, 0.3);
+            color: #60a5fa;
+        }
+
+        .action-btn.primary:hover {
+            background: rgba(96, 165, 250, 0.25);
+        }
+
+        .action-btn.success {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+        }
+
+        .action-btn.success:hover {
+            background: rgba(34, 197, 94, 0.25);
+        }
+
+        .action-btn.danger {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .action-btn.danger:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        .action-btn.warning {
+            background: rgba(251, 191, 36, 0.15);
+            border-color: rgba(251, 191, 36, 0.3);
+            color: #fbbf24;
+        }
+
+        .action-btn.warning:hover {
+            background: rgba(251, 191, 36, 0.25);
+        }
+
+        .action-btn.present {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+        }
+
+        .action-btn.present:hover {
+            background: rgba(34, 197, 94, 0.25);
+        }
+
+        .action-btn.absent {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .action-btn.absent:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Table Container */
+        .table-container {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .table-header h2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8eaed;
+        }
+
+        .table-header .controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .table-header .controls input {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 6px 14px;
+            color: #e8eaed;
+            font-size: 13px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .table-header .controls input:focus {
+            border-color: #60a5fa;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .table-header .controls input::placeholder {
+            color: #64748b;
+        }
+
+        .refresh-btn {
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            color: #60a5fa;
+            padding: 6px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(96, 165, 250, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        thead th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #94a3b8;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        tbody tr {
+            transition: all 0.3s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        tbody td {
+            padding: 12px 16px;
+            font-size: 13px;
+            vertical-align: middle;
+        }
+
+        /* Student Row Styles */
+        .seat-name {
+            font-weight: 600;
+            color: #e8eaed;
+            font-size: 13px;
+        }
+
+        .student-id {
+            font-family: 'SF Mono', 'Menlo', monospace;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .mode-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .mode-badge.classroom {
+            background: rgba(96, 165, 250, 0.12);
+            color: #60a5fa;
+        }
+
+        .mode-badge.presentation {
+            background: rgba(168, 85, 247, 0.12);
+            color: #a78bfa;
+        }
+
+        /* Status Clickable */
+        .status-clickable {
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .status-clickable:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(1.02);
+        }
+
+        /* Dropdown */
+        .room-select {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            padding: 4px 8px;
+            color: #e8eaed;
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .room-select:focus {
+            border-color: #60a5fa;
+        }
+
+        .room-select option {
+            background: #1a1d27;
+        }
+
+        /* Mute Toggle */
+        .mute-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mute-toggle .icon {
+            font-size: 14px;
+        }
+
+        .toggle-switch {
+            width: 36px;
+            height: 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch .slider {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: white;
+            position: absolute;
+            top: 3px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.on {
+            background: #22c55e;
+        }
+
+        .toggle-switch.on .slider {
+            left: 19px;
+        }
+
+        .toggle-switch.off {
+            background: #ef4444;
+        }
+
+        .toggle-switch.off .slider {
+            left: 3px;
+        }
+
+        .toggle-label {
+            font-size: 10px;
+            font-weight: 500;
+            min-width: 24px;
+        }
+
+        .toggle-label.on {
+            color: #22c55e;
+        }
+
+        .toggle-label.off {
+            color: #ef4444;
+        }
+
+        /* Attendance Badge */
+        .attendance-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .attendance-badge.present {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+
+        .attendance-badge.absent {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        /* Chat Container */
+        .chat-container {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+
+        .chat-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e8eaed;
+        }
+
+        .chat-header .room-name {
+            font-size: 13px;
+            color: #60a5fa;
+            font-weight: 500;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 450px;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .chat-message {
+            padding: 8px 12px;
+            border-radius: 8px;
+            max-width: 85%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .chat-message.sent {
+            background: rgba(96, 165, 250, 0.15);
+            align-self: flex-end;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+        }
+
+        .chat-message.received {
+            background: rgba(255, 255, 255, 0.05);
+            align-self: flex-start;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .chat-message.system {
+            background: rgba(251, 191, 36, 0.1);
+            align-self: center;
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            text-align: center;
+            font-size: 12px;
+            color: #fbbf24;
+        }
+
+        .chat-message .sender {
+            font-size: 11px;
+            font-weight: 600;
+            color: #60a5fa;
+            margin-bottom: 2px;
+        }
+
+        .chat-message .text {
+            font-size: 13px;
+            color: #e8eaed;
+        }
+
+        .chat-message .time {
+            font-size: 10px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .chat-input {
+            padding: 12px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 8px 14px;
+            color: #e8eaed;
+            font-size: 13px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .chat-input input:focus {
+            border-color: #60a5fa;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .chat-input input::placeholder {
+            color: #64748b;
+        }
+
+        .chat-input button {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(96, 165, 250, 0.2);
+            color: #60a5fa;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .chat-input button:hover {
+            background: rgba(96, 165, 250, 0.3);
+            transform: scale(1.02);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: #64748b;
+        }
+
+        .empty-state .emoji {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* Scrollable table body */
+        .table-scroll {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .table-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .table-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .table-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 9999;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: rgba(34, 197, 94, 0.95);
+        }
+
+        .toast.error {
+            background: rgba(239, 68, 68, 0.95);
+        }
+
+        .toast.info {
+            background: rgba(96, 165, 250, 0.95);
+        }
+
+        /* Modal for Attendance */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9998;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #1a1d27;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #e8eaed;
+        }
+
+        .modal .subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .modal table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .modal th {
+            text-align: left;
+            padding: 10px 12px;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #94a3b8;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .modal td {
+            padding: 10px 12px;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .modal .close-btn {
+            float: right;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal .close-btn:hover {
+            color: #e8eaed;
+            transform: rotate(90deg);
+        }
+
+        .modal .export-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            border: none;
+            background: rgba(96, 165, 250, 0.2);
+            color: #60a5fa;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-top: 16px;
+        }
+
+        .modal .export-btn:hover {
+            background: rgba(96, 165, 250, 0.3);
+            transform: scale(1.02);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-container {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .header-stats {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .action-buttons {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .table-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+
+            tbody td {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            thead th {
+                padding: 8px 10px;
+                font-size: 10px;
+            }
+
+            .chat-container {
+                height: 350px;
+            }
+
+            .modal {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <h1>📊 Instructor Dashboard</h1>
+                <!-- Instructor Mute Control -->
+                <div class="instructor-controls">
+                    <span class="label">🎤 Instructor:</span>
+                    <div class="instructor-mute-toggle" id="instructorMuteToggle" onclick="window.toggleInstructorMute()">
+                        <span class="icon" id="instructorMicIcon">🔊</span>
+                        <span class="status" id="instructorMicStatus" style="color:#22c55e;">Unmuted</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="stat-item">
+                    <span class="icon">👨‍🎓</span>
+                    <span class="count" id="studentCount">0</span>
+                    <span class="label">Students</span>
+                </div>
+                <div class="stat-item">
+                    <span class="icon">✋</span>
+                    <span class="count" id="raisedCount">0</span>
+                    <span class="label">Hands Raised</span>
+                </div>
+                <div class="stat-item present">
+                    <span class="icon">✅</span>
+                    <span class="count" id="presentCount">0</span>
+                    <span class="label">Present</span>
+                </div>
+                <div class="stat-item absent">
+                    <span class="icon">❌</span>
+                    <span class="count" id="absentCount">0</span>
+                    <span class="label">Absent</span>
+                </div>
+                <div class="stat-item">
+                    <span class="icon">🟢</span>
+                    <span class="status-badge online">
+                        <span class="status-dot online"></span>
+                        Connected
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="action-btn primary" onclick="window.viewVRClass()">🎮 View VR Class</button>
+            <button class="action-btn success" onclick="window.shareScreen()">📺 Share Screen</button>
+            <button class="action-btn warning" onclick="window.takeAttendance()">📋 Take Attendance</button>
+            <button class="action-btn" onclick="window.muteAllStudents()">🔇 Mute All</button>
+            <button class="action-btn" onclick="window.unmuteAllStudents()">🔊 Unmute All</button>
+            <button class="action-btn danger" onclick="window.lowerAllHands()">✋ Lower All Hands</button>
+        </div>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Table -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h2>👥 Online Students</h2>
+                    <div class="controls">
+                        <input type="text" id="searchInput" placeholder="🔍 Search student..." />
+                        <button class="refresh-btn" id="refreshBtn">⟳ Refresh</button>
+                    </div>
+                </div>
+                <div class="table-scroll">
+                    <table id="students">
+                        <thead>
+                            <tr>
+                                <th>Seat</th>
+                                <th>Student ID</th>
+                                <th>Mode</th>
+                                <th>Status</th>
+                                <th>Room</th>
+                                <th>Attendance</th>
+                                <th>Mute</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody">
+                            <!-- Rows rendered by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Chat Room -->
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h3>💬 Chat Room</h3>
+                    <span class="room-name" id="currentRoom">Main Room</span>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-message system">
+                        Welcome to the VR Classroom Chat!
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Type a message..." />
+                    <button onclick="window.sendChatMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            © 2025 VR Classroom • Real-time Student Monitoring
+        </div>
+    </div>
+
+    <!-- Attendance Modal -->
+    <div class="modal-overlay" id="attendanceModal">
+        <div class="modal">
+            <button class="close-btn" onclick="window.closeAttendance()">✕</button>
+            <h2>📋 Attendance Report</h2>
+            <p class="subtitle" id="attendanceDate">Today's attendance - <span id="attendanceDateText"></span></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Seat</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="attendanceTableBody">
+                    <!-- Rows rendered by JavaScript -->
+                </tbody>
+            </table>
+            <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;">
+                <button class="export-btn" onclick="window.exportAttendance()">📥 Export CSV</button>
+                <button class="export-btn" onclick="window.markAllPresent()">✅ Mark All Present</button>
+                <button class="export-btn" onclick="window.markAllAbsent()">❌ Mark All Absent</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script type="module">
+        import { socket } from "./src/network/socket";
+        import { renderStudentTable } from "./src/components/instructor/student-table";
+
+        let isInstructorMuted = false;
+        let attendanceData = {};
+
+        // Initial render
+        socket.emit("requestStudentList");
+
+        // Listen for student list updates
+        socket.on("studentList", (students) => {
+            renderStudentTable(students);
+            updateAttendanceCounts(students);
+        });
+
+        // Listen for hand updates
+        socket.on("raiseHandUpdated", () => {
+            socket.emit("requestStudentList");
+        });
+
+        socket.on("handToggled", () => {
+            socket.emit("requestStudentList");
+        });
+
+        // Listen for mute updates
+        socket.on("muteUpdated", () => {
+            socket.emit("requestStudentList");
+        });
+
+        // Attendance updates
+        socket.on("attendanceUpdated", (data) => {
+            attendanceData = data;
+            socket.emit("requestStudentList");
+            showToast("📋 Attendance updated!", "success");
+        });
+
+        // Chat listeners
+        socket.on("chatMessage", (data) => {
+            addChatMessage(data.sender, data.message, data.isSystem || false);
+        });
+
+        socket.on("userJoined", (data) => {
+            addChatMessage("System", `${data.name} joined the chat`, true);
+        });
+
+        socket.on("userLeft", (data) => {
+            addChatMessage("System", `${data.name} left the chat`, true);
+        });
+
+        // Update attendance counts
+        function updateAttendanceCounts(students) {
+            const present = students.filter(s => s.isPresent !== false);
+            const absent = students.filter(s => s.isPresent === false);
+            
+            document.getElementById("presentCount").textContent = present.length;
+            document.getElementById("absentCount").textContent = absent.length;
+        }
+
+        // Search
+        document.getElementById("searchInput").addEventListener("input", (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll("#studentTableBody tr");
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? "" : "none";
+            });
+        });
+
+        // Refresh
+        document.getElementById("refreshBtn").addEventListener("click", () => {
+            socket.emit("requestStudentList");
+            document.getElementById("refreshBtn").textContent = "⟳ Refreshing...";
+            setTimeout(() => {
+                document.getElementById("refreshBtn").textContent = "⟳ Refresh";
+            }, 1000);
+        });
+
+        // Chat send on Enter
+        document.getElementById("chatInput").addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                window.sendChatMessage();
+            }
+        });
+
+        // Chat functions
+        function addChatMessage(sender, message, isSystem = false) {
+            const container = document.getElementById("chatMessages");
+            const div = document.createElement("div");
+            div.className = `chat-message ${isSystem ? 'system' : (sender === 'You' ? 'sent' : 'received')}`;
+            
+            if (!isSystem) {
+                div.innerHTML = `
+                    <div class="sender">${sender}</div>
+                    <div class="text">${message}</div>
+                    <div class="time">${new Date().toLocaleTimeString()}</div>
+                `;
+            } else {
+                div.innerHTML = `<div class="text">${message}</div>`;
+            }
+            
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        window.sendChatMessage = () => {
+            const input = document.getElementById("chatInput");
+            const message = input.value.trim();
+            if (!message) return;
+            
+            addChatMessage("You", message);
+            input.value = "";
+            socket.emit("chatMessage", { message });
+        };
+
+        window.toggleInstructorMute = () => {
+            isInstructorMuted = !isInstructorMuted;
+            const icon = document.getElementById("instructorMicIcon");
+            const status = document.getElementById("instructorMicStatus");
+            
+            if (isInstructorMuted) {
+                icon.textContent = "🔇";
+                status.textContent = "Muted";
+                status.style.color = "#ef4444";
+                socket.emit("instructorMute", { muted: true });
+                showToast("🔇 You are muted", "info");
+            } else {
+                icon.textContent = "🔊";
+                status.textContent = "Unmuted";
+                status.style.color = "#22c55e";
+                socket.emit("instructorMute", { muted: false });
+                showToast("🔊 You are unmuted", "success");
+            }
+        };
+
+        // Attendance functions
+        window.takeAttendance = () => {
+            socket.emit("requestStudentList", (students) => {
+                renderAttendanceModal(students);
+            });
+            document.getElementById("attendanceModal").classList.add("active");
+            document.getElementById("attendanceDateText").textContent = new Date().toLocaleDateString();
+        };
+
+        window.closeAttendance = () => {
+            document.getElementById("attendanceModal").classList.remove("active");
+        };
+
+        window.renderAttendanceModal = (students) => {
+            const tbody = document.getElementById("attendanceTableBody");
+            if (!students) return;
+
+            tbody.innerHTML = students.map(student => {
+                const isPresent = student.isPresent !== false;
+                return `
+                    <tr>
+                        <td>${student.name || student.id.substring(0, 6)}</td>
+                        <td>${student.seat}</td>
+                        <td>
+                            <button class="action-btn ${isPresent ? 'present' : 'absent'}" 
+                                    onclick="window.toggleAttendance('${student.id}')"
+                                    style="padding:4px 12px;font-size:12px;">
+                                ${isPresent ? '✅ Present' : '❌ Absent'}
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        };
+
+        window.toggleAttendance = (studentId) => {
+            socket.emit("toggleAttendance", { studentId });
+            socket.emit("requestStudentList", (students) => {
+                renderAttendanceModal(students);
+            });
+        };
+
+        window.markAllPresent = () => {
+            socket.emit("markAllPresent");
+            showToast("✅ All students marked present", "success");
+            setTimeout(() => {
+                socket.emit("requestStudentList");
+                socket.emit("requestStudentList", (students) => {
+                    renderAttendanceModal(students);
+                });
+            }, 500);
+        };
+
+        window.markAllAbsent = () => {
+            socket.emit("markAllAbsent");
+            showToast("❌ All students marked absent", "info");
+            setTimeout(() => {
+                socket.emit("requestStudentList");
+                socket.emit("requestStudentList", (students) => {
+                    renderAttendanceModal(students);
+                });
+            }, 500);
+        };
+
+        window.exportAttendance = () => {
+            socket.emit("requestStudentList", (students) => {
+                let csv = "Student,Seat,Status\n";
+                students.forEach(s => {
+                    const status = s.isPresent !== false ? "Present" : "Absent";
+                    csv += `${s.name || s.id.substring(0, 6)},${s.seat},${status}\n`;
+                });
+                
+                const blob = new Blob([csv], { type: "text/csv" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `attendance_${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast("📥 Attendance exported!", "success");
+            });
+        };
+
+        // Global functions
+        window.viewVRClass = () => {
+            window.open('/index.html', '_blank');
+            showToast('🔄 Opening VR Classroom...', 'info');
+        };
+
+        window.shareScreen = () => {
+            if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+                navigator.mediaDevices.getDisplayMedia({ video: true })
+                    .then(stream => {
+                        socket.emit('startScreenShare');
+                        showToast('📺 Screen sharing started!', 'success');
+                    })
+                    .catch(err => {
+                        showToast('❌ Screen sharing cancelled or failed', 'error');
+                    });
+            } else {
+                showToast('❌ Screen sharing not supported', 'error');
+            }
+        };
+
+        window.muteAllStudents = () => {
+            socket.emit('muteAllStudents');
+            showToast('🔇 All students muted', 'info');
+        };
+
+        window.unmuteAllStudents = () => {
+            socket.emit('unmuteAllStudents');
+            showToast('🔊 All students unmuted', 'success');
+        };
+
+        window.lowerAllHands = () => {
+            socket.emit('lowerAllHands');
+            showToast('✋ All hands lowered', 'info');
+        };
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 3000);
+        }
+
+        window.socket = socket;
+
+        console.log("✅ Instructor Dashboard initialized");
+    </script>
+</body>
+</html>

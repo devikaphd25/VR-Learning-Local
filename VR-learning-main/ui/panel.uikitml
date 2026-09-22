@@ -1,0 +1,266 @@
+<style>
+  .panel-root {
+    padding-top: 20px;
+    padding-right: 26px;
+    padding-bottom: 20px;
+    padding-left: 26px;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+    background-color: rgba(10, 20, 43, 0.94);
+    border-width: 2px;
+    border-color: rgba(125, 211, 252, 0.72);
+    border-radius: 28px;
+  }
+
+  .brand-row {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+    text-align: center;
+    vertical-align: center;
+  }
+
+  .brand-logo-container {
+    width: 46px;
+    height: 46px;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .brand-title {
+    color: white;
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+  .title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #dbeafe;
+    margin-bottom: 5px;
+  }
+
+  .subtitle {
+    color: #a9bdd8;
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+
+  .subtitle-error { color: #fda4af; }
+  .subtitle-success { color: #86efac; }
+
+  .role-toggle {
+    flex-direction: row;
+    width: 100%;
+    gap: 12px;
+    margin-bottom: 15px;
+  }
+
+  .role-segment {
+    width: 214px;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 18px;
+    border-width: 2px;
+    border-color: rgba(148, 163, 184, 0.38);
+    background-color: rgba(30, 41, 65, 0.88);
+    color: #cbd5e1;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: center;
+  }
+
+  .role-segment:hover {
+    background-color: rgba(42, 64, 96, 0.96);
+    border-color: #7dd3fc;
+  }
+
+  .role-segment-selected {
+    background-color: #123d72;
+    border-color: #38bdf8;
+    color: white;
+  }
+
+  .pin-label {
+    color: #dbeafe;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .pin-row {
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 13px;
+  }
+
+  .pin-slot {
+    width: 43px;
+    height: 46px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 11px;
+    background-color: rgba(15, 23, 42, 0.92);
+    border-width: 2px;
+    border-color: #52637c;
+  }
+
+  .pin-slot-filled {
+    border-color: #38bdf8;
+    background-color: #17375f;
+  }
+
+  .pin-digit {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    vertical-align: center;
+    color: white;
+    font-size: 23px;
+    font-weight: 700;
+  }
+
+  .keypad {
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    width: 100%;
+    margin-bottom: 13px;
+  }
+
+  .keypad-row {
+    flex-direction: row;
+    gap: 7px;
+  }
+
+  .keypad-key {
+    width: 60px;
+    height: 44px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    border-width: 1px;
+    border-color: rgba(125, 211, 252, 0.22);
+  }
+
+  .key-btn {
+    background-color: #1e3558;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: center;
+  }
+
+  .key-btn:hover {
+    background-color: #285486;
+    border-color: #7dd3fc;
+  }
+
+  .key-spacer {
+    width: 60px;
+    height: 44px;
+  }
+
+  .backspace-btn {
+    background-color: #3b2538;
+    color: #fda4af;
+    font-size: 13px;
+    text-align: center;
+    vertical-align: center;
+  }
+
+  .backspace-btn:hover {
+    background-color: #5d2941;
+    border-color: #fda4af;
+  }
+
+  .btn-base {
+    width: 100%;
+    height: 46px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: center;
+  }
+
+  .btn-continue {
+    background-color: #38bdf8;
+    color: #07162c;
+  }
+
+  .btn-continue:hover {
+    background-color: #7dd3fc;
+  }
+
+  .helper {
+    color: #9fb3ce;
+    font-size: 12px;
+    margin-top: 12px;
+  }
+
+  .is-hidden { display: none; }
+</style>
+
+<Panel id="panel-root" class="panel-root">
+  <div class="brand-row">
+    <div id="umes-logo-container" class="brand-logo-container"></div>
+    <text class="brand-title">UMES VR Classroom</text>
+  </div>
+
+  <text id="title-text" class="title">Create or Join a Classroom</text>
+  <text id="subtitle-text" class="subtitle">Professor activates the classroom; students join automatically</text>
+
+  <div id="role-toggle" class="role-toggle">
+    <button id="role-professor" class="role-segment role-segment-selected">Professor</button>
+    <button id="role-student" class="role-segment">Student</button>
+  </div>
+
+  <text id="pin-label" class="pin-label">Choose your 6-digit classroom code</text>
+  <div id="pin-row" class="pin-row">
+    <div id="pin-slot-0" class="pin-slot"><text id="pin-digit-0" class="pin-digit">-</text></div>
+    <div id="pin-slot-1" class="pin-slot"><text id="pin-digit-1" class="pin-digit">-</text></div>
+    <div id="pin-slot-2" class="pin-slot"><text id="pin-digit-2" class="pin-digit">-</text></div>
+    <div id="pin-slot-3" class="pin-slot"><text id="pin-digit-3" class="pin-digit">-</text></div>
+    <div id="pin-slot-4" class="pin-slot"><text id="pin-digit-4" class="pin-digit">-</text></div>
+    <div id="pin-slot-5" class="pin-slot"><text id="pin-digit-5" class="pin-digit">-</text></div>
+  </div>
+
+  <div id="keypad" class="keypad">
+    <div class="keypad-row">
+      <button id="key-1" class="key-btn keypad-key">1</button>
+      <button id="key-2" class="key-btn keypad-key">2</button>
+      <button id="key-3" class="key-btn keypad-key">3</button>
+    </div>
+    <div class="keypad-row">
+      <button id="key-4" class="key-btn keypad-key">4</button>
+      <button id="key-5" class="key-btn keypad-key">5</button>
+      <button id="key-6" class="key-btn keypad-key">6</button>
+    </div>
+    <div class="keypad-row">
+      <button id="key-7" class="key-btn keypad-key">7</button>
+      <button id="key-8" class="key-btn keypad-key">8</button>
+      <button id="key-9" class="key-btn keypad-key">9</button>
+    </div>
+    <div class="keypad-row">
+      <div class="key-spacer"></div>
+      <button id="key-0" class="key-btn keypad-key">0</button>
+      <button id="key-backspace" class="backspace-btn keypad-key">Back</button>
+    </div>
+  </div>
+
+  <button id="confirm-btn" class="btn-base btn-continue">Create Classroom</button>
+  <text id="helper-text" class="helper">Students automatically join the active classroom and receive a seat</text>
+</Panel>

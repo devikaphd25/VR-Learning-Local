@@ -1,0 +1,36 @@
+<style>
+  .results-button {
+    width: 13;
+    height: 13;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5;
+    background-color: rgba(6, 78, 59, 0.96);
+    border-width: 0.3;
+    border-color: #6ee7b7;
+    border-radius: 6.5;
+    cursor: pointer;
+    pointer-events: auto;
+    pointer-events-order: 11001;
+  }
+
+  .results-icon {
+    color: #d1fae5;
+    font-size: 2.2;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .results-label {
+    color: white;
+    font-size: 0.95;
+    font-weight: bold;
+    text-align: center;
+  }
+</style>
+
+<Button id="lab-results-open-button" class="results-button">
+  <Text id="activity-results-icon" class="results-icon">GAME</Text>
+  <Text id="activity-results-label" class="results-label">RESULTS</Text>
+</Button>

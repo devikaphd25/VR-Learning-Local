@@ -1,0 +1,75 @@
+<style>
+  .save-shell {
+    width: 76;
+    padding-top: 7;
+    padding-bottom: 7;
+    padding-left: 7;
+    padding-right: 7;
+    flex-direction: column;
+    align-items: center;
+    gap: 3;
+    background-color: rgba(2, 6, 18, 0.99);
+    border-width: 0.3;
+    border-color: rgba(52, 211, 153, 0.9);
+    border-radius: 4;
+    pointer-events: none;
+  }
+
+  .save-mark {
+    width: 13;
+    height: 7;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(16, 185, 129, 0.22);
+    border-width: 0.2;
+    border-color: #6ee7b7;
+    border-radius: 2;
+    color: #a7f3d0;
+    font-size: 2.3;
+    font-weight: bold;
+  }
+
+  .save-title {
+    color: white;
+    font-size: 4;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .save-message {
+    color: #cbd5e1;
+    font-size: 2.1;
+    text-align: center;
+  }
+
+  .save-track {
+    width: 56;
+    height: 1.2;
+    margin-top: 1;
+    background-color: rgba(51, 65, 85, 0.95);
+    border-radius: 0.6;
+  }
+
+  .save-progress {
+    width: 42;
+    height: 1.2;
+    background-color: #10b981;
+    border-radius: 0.6;
+  }
+
+  .save-status {
+    color: #86efac;
+    font-size: 2;
+    text-align: center;
+  }
+</style>
+
+<Panel class="save-shell">
+  <Text class="save-mark">REPORT</Text>
+  <Text id="save-report-title" class="save-title">Preparing Lab Report</Text>
+  <Text id="save-report-message" class="save-message">Collecting student results and mistakes</Text>
+  <Panel class="save-track">
+    <Panel class="save-progress"></Panel>
+  </Panel>
+  <Text id="save-report-status" class="save-status">Saving CSV files. Please wait...</Text>
+</Panel>

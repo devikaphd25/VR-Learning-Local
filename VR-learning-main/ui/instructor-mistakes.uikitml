@@ -1,0 +1,29 @@
+<style>
+  .mistakes-root { width: 940; padding: 34; flex-direction: column; gap: 18; background-color: rgba(15, 12, 25, 0.98); border-width: 2; border-color: rgba(251, 191, 36, 0.7); border-radius: 30; pointer-events: auto; pointer-events-order: 12000; }
+  .header { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; padding-bottom: 18; border-bottom-width: 1; border-bottom-color: rgba(148,163,184,0.25); pointer-events: auto; pointer-events-order: 12000; }
+  .title { color: white; font-size: 34; font-weight: bold; }
+  .subtitle { color: #fcd34d; font-size: 17; }
+  .close { width: 58; height: 58; align-items: center; justify-content: center; background-color: rgba(239,68,68,0.2); border-width: 1; border-color: #f87171; border-radius: 29; color: white; font-size: 22; font-weight: bold; cursor: pointer; pointer-events: auto; pointer-events-order: 12001; }
+  .summary { color: #fde68a; font-size: 19; font-weight: bold; }
+  .row { width: 100%; min-height: 76; flex-direction: row; align-items: center; padding: 16; background-color: rgba(30,41,59,0.75); border-radius: 14; border-width: 1; border-color: rgba(251,191,36,0.2); }
+  .question { width: 180; color: white; font-size: 18; font-weight: bold; }
+  .answer { width: 150; color: #86efac; font-size: 16; }
+  .count { width: 120; color: #fca5a5; font-size: 18; font-weight: bold; }
+  .students { width: 420; color: #cbd5e1; font-size: 15; }
+</style>
+
+<Panel class="mistakes-root">
+  <Panel class="header">
+    <Panel style="flex-direction:column; gap:6;">
+      <Text class="title">Class Common Mistakes</Text>
+      <Text class="subtitle">Questions are ranked by total incorrect attempts</Text>
+    </Panel>
+    <Button id="mistakes-close-button" class="close">X</Button>
+  </Panel>
+  <Text id="mistakes-summary" class="summary">No mistakes reported</Text>
+  <Panel class="row"><Text id="mistake-question-1" class="question">—</Text><Text id="mistake-answer-1" class="answer">—</Text><Text id="mistake-count-1" class="count">—</Text><Text id="mistake-students-1" class="students">—</Text></Panel>
+  <Panel class="row"><Text id="mistake-question-2" class="question">—</Text><Text id="mistake-answer-2" class="answer">—</Text><Text id="mistake-count-2" class="count">—</Text><Text id="mistake-students-2" class="students">—</Text></Panel>
+  <Panel class="row"><Text id="mistake-question-3" class="question">—</Text><Text id="mistake-answer-3" class="answer">—</Text><Text id="mistake-count-3" class="count">—</Text><Text id="mistake-students-3" class="students">—</Text></Panel>
+  <Panel class="row"><Text id="mistake-question-4" class="question">—</Text><Text id="mistake-answer-4" class="answer">—</Text><Text id="mistake-count-4" class="count">—</Text><Text id="mistake-students-4" class="students">—</Text></Panel>
+  <Panel class="row"><Text id="mistake-question-5" class="question">—</Text><Text id="mistake-answer-5" class="answer">—</Text><Text id="mistake-count-5" class="count">—</Text><Text id="mistake-students-5" class="students">—</Text></Panel>
+</Panel>

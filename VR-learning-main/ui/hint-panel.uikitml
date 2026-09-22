@@ -1,0 +1,55 @@
+<!-- ui/hint-panel.uikitml -->
+<style>
+  .hint-container {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+    pointer-events: none;
+  }
+  
+  .hint-left {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #4ade80;
+    padding-top: 20px;
+    padding-right: 28px;
+    padding-bottom: 20px;
+    padding-left: 28px;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 600;
+    border-left: 4px solid #4ade80;
+    max-width: 300px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  
+  .hint-right {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #60a5fa;
+    padding-top: 20px;
+    padding-right: 28px;
+    padding-bottom: 20px;
+    padding-left: 28px;
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 600;
+    border-right: 4px solid #60a5fa;
+    max-width: 300px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  
+  .hint-visible {
+    opacity: 1 !important;
+  }
+  
+  .hide {
+    display: none;
+  }
+</style>
+
+<Panel id="hint-container" class="hint-container">
+  <div id="hint-left" class="hint-left">✅ Seat Confirmed!</div>
+  <div id="hint-right" class="hint-right">👋 Welcome to Class!</div>
+</Panel>

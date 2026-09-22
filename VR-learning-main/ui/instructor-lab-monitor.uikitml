@@ -1,0 +1,311 @@
+<style>
+  .monitor-root {
+    width: 940;
+    padding: 34;
+    flex-direction: column;
+    gap: 22;
+    background-color: rgba(7, 14, 29, 0.98);
+    border-width: 2;
+    border-color: rgba(52, 211, 153, 0.65);
+    border-radius: 30;
+    pointer-events: auto;
+    pointer-events-order: 11000;
+  }
+
+  .monitor-header {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: auto;
+    pointer-events-order: 11000;
+    padding-bottom: 20;
+    border-bottom-width: 1;
+    border-bottom-color: rgba(148, 163, 184, 0.24);
+  }
+
+  .header-copy {
+    flex-direction: column;
+    gap: 7;
+  }
+
+  .monitor-status-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 14;
+  }
+
+  .monitor-title {
+    color: #ffffff;
+    font-size: 35;
+    font-weight: bold;
+  }
+
+  .monitor-timer {
+    color: #67e8f9;
+    font-size: 17;
+    font-weight: bold;
+    padding-left: 12;
+    padding-right: 12;
+    padding-top: 5;
+    padding-bottom: 5;
+    border-radius: 10;
+    border-width: 1;
+    border-color: rgba(103, 232, 249, 0.65);
+    background-color: rgba(8, 145, 178, 0.2);
+  }
+
+  .monitor-subtitle {
+    color: #94a3b8;
+    font-size: 17;
+  }
+
+  .close-button {
+    width: 58;
+    height: 58;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(239, 68, 68, 0.18);
+    border-width: 1;
+    border-color: rgba(248, 113, 113, 0.65);
+    border-radius: 29;
+    color: white;
+    font-size: 22;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto;
+    pointer-events-order: 11001;
+  }
+
+  .header-actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 12;
+    pointer-events: auto;
+    pointer-events-order: 11000;
+  }
+
+  .stop-button {
+    height: 58;
+    padding-left: 22;
+    padding-right: 22;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(220, 38, 38, 0.28);
+    border-width: 1;
+    border-color: rgba(248, 113, 113, 0.8);
+    border-radius: 16;
+    color: #fecaca;
+    font-size: 17;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto;
+    pointer-events-order: 11001;
+  }
+
+  .mistakes-button {
+    height: 58;
+    padding-left: 20;
+    padding-right: 20;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(245, 158, 11, 0.2);
+    border-width: 1;
+    border-color: rgba(251, 191, 36, 0.75);
+    border-radius: 16;
+    color: #fde68a;
+    font-size: 16;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto;
+    pointer-events-order: 11001;
+  }
+
+  .column-header {
+    width: 100%;
+    flex-direction: row;
+    padding-left: 18;
+    padding-right: 18;
+    color: #94a3b8;
+    font-size: 15;
+    font-weight: bold;
+  }
+
+  .student-list {
+    width: 100%;
+    flex-direction: column;
+    gap: 11;
+  }
+
+  .student-row {
+    width: 100%;
+    height: 68;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 18;
+    padding-right: 18;
+    background-color: rgba(30, 41, 59, 0.78);
+    border-width: 1;
+    border-color: rgba(148, 163, 184, 0.2);
+    border-radius: 14;
+  }
+
+  .student-row-hidden {
+    display: none;
+  }
+
+  .name-cell {
+    width: 165;
+    color: white;
+    font-size: 18;
+    font-weight: bold;
+  }
+
+  .question-cell {
+    width: 100;
+    color: #bfdbfe;
+    font-size: 17;
+  }
+
+  .answers-cell {
+    width: 125;
+    flex-direction: row;
+    align-items: center;
+    gap: 14;
+  }
+
+  .correct-answer {
+    color: #86efac;
+    font-size: 17;
+    font-weight: bold;
+  }
+
+  .wrong-answer {
+    color: #fca5a5;
+    font-size: 17;
+    font-weight: bold;
+  }
+
+  .score-cell {
+    width: 70;
+    color: #fde68a;
+    font-size: 17;
+    font-weight: bold;
+  }
+
+  .time-cell {
+    width: 95;
+    color: #bfdbfe;
+    font-size: 17;
+    font-weight: bold;
+  }
+
+  .status-cell {
+    width: 125;
+    color: #86efac;
+    font-size: 17;
+    font-weight: bold;
+  }
+
+  .footer-note {
+    color: #64748b;
+    font-size: 14;
+    text-align: center;
+  }
+
+  .save-status {
+    color: #86efac;
+    font-size: 15;
+    text-align: center;
+  }
+
+  .rank-cell {
+    width: 68;
+    color: #fcd34d;
+    font-size: 17;
+    font-weight: bold;
+  }
+
+  .accuracy-cell {
+    width: 95;
+    color: #67e8f9;
+    font-size: 17;
+    font-weight: bold;
+  }
+
+  .monitor-paging {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 14;
+  }
+
+  .page-button {
+    width: 86;
+    height: 42;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(5, 150, 105, 0.28);
+    border-width: 1;
+    border-color: #34d399;
+    border-radius: 12;
+    color: white;
+    font-size: 15;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto;
+    pointer-events-order: 11001;
+  }
+
+  .page-label {
+    width: 130;
+    color: #a7f3d0;
+    font-size: 16;
+    font-weight: bold;
+    text-align: center;
+  }
+</style>
+
+<Panel class="monitor-root">
+  <Panel class="monitor-header">
+    <Panel class="header-copy">
+      <Text class="monitor-title">Python Lab Live Monitor</Text>
+      <Panel class="monitor-status-row">
+        <Text class="monitor-subtitle">Student activity updates automatically</Text>
+        <Text id="lab-monitor-timer" class="monitor-timer">00:00</Text>
+      </Panel>
+    </Panel>
+    <Panel class="header-actions">
+      <Button id="lab-monitor-mistakes-button" class="mistakes-button">COMMON MISTAKES</Button>
+      <Button id="lab-monitor-stop-button" class="stop-button">STOP GAME</Button>
+      <Button id="lab-monitor-close-button" class="close-button">X</Button>
+    </Panel>
+  </Panel>
+
+  <Panel class="column-header">
+    <Text class="rank-cell">RANK</Text>
+    <Text class="name-cell">STUDENT</Text>
+    <Text class="question-cell">PROGRESS</Text>
+    <Text class="answers-cell">ANSWERS</Text>
+    <Text class="score-cell">SCORE</Text>
+    <Text class="accuracy-cell">ACCURACY</Text>
+    <Text class="time-cell">TIME</Text>
+    <Text class="status-cell">STATUS</Text>
+  </Panel>
+
+  <Panel class="student-list">
+    <Panel id="lab-row-1" class="student-row"><Text id="lab-rank-1" class="rank-cell">—</Text><Text id="lab-name-1" class="name-cell">—</Text><Text id="lab-question-1" class="question-cell">—</Text><Panel class="answers-cell"><Text id="lab-correct-1" class="correct-answer">OK 0</Text><Text id="lab-wrong-1" class="wrong-answer">X 0</Text></Panel><Text id="lab-score-1" class="score-cell">—</Text><Text id="lab-accuracy-1" class="accuracy-cell">—</Text><Text id="lab-time-1" class="time-cell">—</Text><Text id="lab-status-1" class="status-cell">Waiting</Text></Panel>
+    <Panel id="lab-row-2" class="student-row"><Text id="lab-rank-2" class="rank-cell">—</Text><Text id="lab-name-2" class="name-cell">—</Text><Text id="lab-question-2" class="question-cell">—</Text><Panel class="answers-cell"><Text id="lab-correct-2" class="correct-answer">OK 0</Text><Text id="lab-wrong-2" class="wrong-answer">X 0</Text></Panel><Text id="lab-score-2" class="score-cell">—</Text><Text id="lab-accuracy-2" class="accuracy-cell">—</Text><Text id="lab-time-2" class="time-cell">—</Text><Text id="lab-status-2" class="status-cell">Waiting</Text></Panel>
+    <Panel id="lab-row-3" class="student-row"><Text id="lab-rank-3" class="rank-cell">—</Text><Text id="lab-name-3" class="name-cell">—</Text><Text id="lab-question-3" class="question-cell">—</Text><Panel class="answers-cell"><Text id="lab-correct-3" class="correct-answer">OK 0</Text><Text id="lab-wrong-3" class="wrong-answer">X 0</Text></Panel><Text id="lab-score-3" class="score-cell">—</Text><Text id="lab-accuracy-3" class="accuracy-cell">—</Text><Text id="lab-time-3" class="time-cell">—</Text><Text id="lab-status-3" class="status-cell">Waiting</Text></Panel>
+    <Panel id="lab-row-4" class="student-row"><Text id="lab-rank-4" class="rank-cell">—</Text><Text id="lab-name-4" class="name-cell">—</Text><Text id="lab-question-4" class="question-cell">—</Text><Panel class="answers-cell"><Text id="lab-correct-4" class="correct-answer">OK 0</Text><Text id="lab-wrong-4" class="wrong-answer">X 0</Text></Panel><Text id="lab-score-4" class="score-cell">—</Text><Text id="lab-accuracy-4" class="accuracy-cell">—</Text><Text id="lab-time-4" class="time-cell">—</Text><Text id="lab-status-4" class="status-cell">Waiting</Text></Panel>
+    <Panel id="lab-row-5" class="student-row"><Text id="lab-rank-5" class="rank-cell">—</Text><Text id="lab-name-5" class="name-cell">—</Text><Text id="lab-question-5" class="question-cell">—</Text><Panel class="answers-cell"><Text id="lab-correct-5" class="correct-answer">OK 0</Text><Text id="lab-wrong-5" class="wrong-answer">X 0</Text></Panel><Text id="lab-score-5" class="score-cell">—</Text><Text id="lab-accuracy-5" class="accuracy-cell">—</Text><Text id="lab-time-5" class="time-cell">—</Text><Text id="lab-status-5" class="status-cell">Waiting</Text></Panel>
+  </Panel>
+
+  <Panel class="monitor-paging">
+    <Button id="lab-monitor-up-button" class="page-button">UP</Button>
+    <Text id="lab-monitor-page-label" class="page-label">PAGE 1 / 1</Text>
+    <Button id="lab-monitor-down-button" class="page-button">DOWN</Button>
+  </Panel>
+  <Text class="footer-note">Question represents the student’s current card in the 12-card activity.</Text>
+</Panel>

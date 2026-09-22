@@ -1,0 +1,111 @@
+<style>
+  .panel-root {
+    padding: 24px;
+    flex-direction: column;
+    align-items: center;
+    width: 480px;
+    background-color: #1f1f1f;
+    border-radius: 12px;
+  }
+
+  .title {
+    font-size: 22px;
+    color: white;
+    margin-bottom: 16px;
+  }
+
+  .row {
+    flex-direction: row;
+    margin-bottom: 12px;
+  }
+
+  /* Base properties for every seat mesh */
+  .seat {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 14px;
+    margin-left: 5px;
+  }
+
+  /* Explicitly defined state classes for WebXR compilation stability */
+  .seat-available {
+    background-color: #4ade80;
+  }
+
+  .seat-taken {
+    background-color: #ef4444;
+  }
+
+  .confirm-btn {
+    margin-top: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 24px;
+    padding-right: 24px;
+    background-color: #3b82f6;
+    border-radius: 8px;
+    color: white;
+  }
+
+  .status-text {
+    margin-top: 12px;
+    color: #cccccc;
+    font-size: 14px;
+  }
+
+  .hide { 
+    display: none; 
+  }
+</style>
+
+<Panel id="panel-root" class="panel-root">
+  <text class="title">Select Your Seat</text>
+
+  <!-- We start all buttons with 'seat seat-available' by default -->
+  <div class="row">
+    <button id="Seat_R1_01" class="seat seat-available" data-seat="Seat_R1_01">A1</button>
+    <button id="Seat_R1_02" class="seat seat-available" data-seat="Seat_R1_02">A2</button>
+    <button id="Seat_R1_03" class="seat seat-available" data-seat="Seat_R1_03">A3</button>
+    <button id="Seat_R1_04" class="seat seat-available" data-seat="Seat_R1_04">A4</button>
+    <button id="Seat_R1_05" class="seat seat-available" data-seat="Seat_R1_05">A5</button>
+  </div>
+
+  <div class="row">
+    <button id="Seat_R2_01" class="seat seat-available" data-seat="Seat_R2_01">B1</button>
+    <button id="Seat_R2_02" class="seat seat-available" data-seat="Seat_R2_02">B2</button>
+    <button id="Seat_R2_03" class="seat seat-available" data-seat="Seat_R2_03">B3</button>
+    <button id="Seat_R2_04" class="seat seat-available" data-seat="Seat_R2_04">B4</button>
+    <button id="Seat_R2_05" class="seat seat-available" data-seat="Seat_R2_05">B5</button>
+  </div>
+
+  <div class="row">
+    <button id="Seat_R3_01" class="seat seat-available" data-seat="Seat_R3_01">C1</button>
+    <button id="Seat_R3_02" class="seat seat-available" data-seat="Seat_R3_02">C2</button>
+    <button id="Seat_R3_03" class="seat seat-available" data-seat="Seat_R3_03">C3</button>
+    <button id="Seat_R3_04" class="seat seat-available" data-seat="Seat_R3_04">C4</button>
+    <button id="Seat_R3_05" class="seat seat-available" data-seat="Seat_R3_05">C5</button>
+  </div>
+
+  <div class="row">
+    <button id="Seat_R4_01" class="seat seat-available" data-seat="Seat_R4_01">D1</button>
+    <button id="Seat_R4_02" class="seat seat-available" data-seat="Seat_R4_02">D2</button>
+    <button id="Seat_R4_03" class="seat seat-available" data-seat="Seat_R4_03">D3</button>
+    <button id="Seat_R4_04" class="seat seat-available" data-seat="Seat_R4_04">D4</button>
+    <button id="Seat_R4_05" class="seat seat-available" data-seat="Seat_R4_05">D5</button>
+  </div>
+
+  <div class="row">
+    <button id="Seat_R5_01" class="seat seat-available" data-seat="Seat_R5_01">E1</button>
+    <button id="Seat_R5_02" class="seat seat-available" data-seat="Seat_R5_02">E2</button>
+    <button id="Seat_R5_03" class="seat seat-available" data-seat="Seat_R5_03">E3</button>
+    <button id="Seat_R5_04" class="seat seat-available" data-seat="Seat_R5_04">E4</button>
+    <button id="Seat_R5_05" class="seat seat-available" data-seat="Seat_R5_05">E5</button>
+  </div>
+
+  <button id="confirm-btn" class="confirm-btn">Confirm Seat</button>
+  <text id="status-text" class="status-text">No seat selected</text>
+</Panel>

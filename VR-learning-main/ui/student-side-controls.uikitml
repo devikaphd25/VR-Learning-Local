@@ -1,0 +1,11 @@
+<style>
+  .side-controls { width: 720; height: 790; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 56; gap: 24; background-opacity: 0; }
+  .control-title { font-family: inter; font-size: 34; font-weight: 600; color: #cbd5e1; text-align: center; }
+  .hand-control { width: 180; height: 180; background-opacity: 0; border-width: 0; cursor: pointer; pointer-events: auto; }
+  .hand-label { font-family: inter; font-size: 30; font-weight: 600; color: #e0f2fe; text-align: center; }
+</style>
+<Panel class="side-controls">
+  <Text class="control-title">Control Panel</Text>
+  <Button id="side-raise-hand" class="hand-control"></Button>
+  <Text id="side-hand-label" class="hand-label">Raise Hand</Text>
+</Panel>

@@ -1,0 +1,22 @@
+<style>
+  .choice-root { width: 760; height: 430; flex-direction: column; align-items: center; justify-content: center; gap: 24; padding: 34; background-color: rgba(8, 18, 38, 0.98); border-radius: 28; border-width: 2; border-color: #818cf8; pointer-events: auto; }
+  .choice-title { color: #ffffff; font-size: 32; font-weight: 700; font-family: inter; }
+  .choice-copy { color: #cbd5e1; font-size: 17; font-family: inter; }
+  .choice-row { flex-direction: row; gap: 22; }
+  .choice-button { width: 320; height: 145; flex-direction: column; align-items: center; justify-content: center; gap: 12; border-radius: 20; border-width: 2; color: #ffffff; cursor: pointer; pointer-events: auto; }
+  .classroom { background-color: rgba(3, 105, 161, 0.82); border-color: #7dd3fc; }
+  .immersive { background-color: rgba(79, 70, 229, 0.82); border-color: #a5b4fc; }
+  .button-title { color: #ffffff; font-size: 22; font-weight: 700; font-family: inter; }
+  .button-copy { color: #e0f2fe; font-size: 13; font-family: inter; }
+  .cancel { width: 180; height: 52; align-items: center; justify-content: center; background-color: #475569; border-radius: 14; border-width: 1; border-color: #94a3b8; color: #ffffff; font-size: 16; font-weight: 700; cursor: pointer; pointer-events: auto; }
+</style>
+
+<Panel class="choice-root">
+  <Text class="choice-title">Choose Debrief View</Text>
+  <Text class="choice-copy">Where should the class experience this debrief?</Text>
+  <Panel class="choice-row">
+    <Button id="debrief-choice-classroom" class="choice-button classroom"><Text class="button-title">IN CLASSROOM</Text><Text class="button-copy">Show it on the classroom presentation screen</Text></Button>
+    <Button id="debrief-choice-360" class="choice-button immersive"><Text class="button-title">360 ROOM</Text><Text class="button-copy">Enter the immersive Mission Review room</Text></Button>
+  </Panel>
+  <Button id="debrief-choice-cancel" class="cancel">CANCEL</Button>
+</Panel>

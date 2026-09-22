@@ -1,0 +1,25 @@
+<style>
+  .bin-label {
+    align-items: center;
+    justify-content: center;
+    width: 12;
+    height: 5;
+    padding: 0.5;
+    background-color: #f5f0e6;
+    border-color: #7a1f2b;
+    border-width: 0.15;
+    border-radius: 0.6;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #label {
+    font-size: 3.4;
+    font-weight: bold;
+    color: #7a1f2b;
+    text-align: center;
+  }
+</style>
+<div class="bin-label">
+  <div id="label">type</div>
+</div>

@@ -1,0 +1,189 @@
+<style>
+  .menu-container {
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+    padding-right: 24px;
+    background-color: rgba(20, 22, 36, 0.95);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 400px;
+    max-width: 600px;
+  }
+
+  .menu-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .menu-title {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 600;
+    font-family: inter;
+  }
+
+  .menu-close-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #ffffff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+  }
+
+  .menu-controls-info {
+    flex-direction: row;
+    gap: 20px;
+    margin-bottom: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    padding-right: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .menu-control-text {
+    color: #94a3b8;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: inter;
+  }
+
+  .menu-grid {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .menu-item {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+
+  .menu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .menu-icon {
+    font-size: 24px;
+    width: 40px;
+    text-align: center;
+  }
+
+  .menu-content {
+    flex: 1;
+  }
+
+  .menu-label {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: inter;
+  }
+
+  .menu-shortcut {
+    color: #94a3b8;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .menu-arrow {
+    color: #94a3b8;
+    font-size: 18px;
+  }
+
+  .menu-hidden {
+    display: none;
+  }
+
+  .menu-visible {
+    display: flex;
+  }
+</style>
+
+<Panel id="menu-container" class="menu-container menu-hidden">
+  <div id="menu-header" class="menu-header">
+    <span id="menu-title" class="menu-title">🎮 VR Classroom Menu</span>
+    <button id="menu-close-btn" class="menu-close-btn">✕</button>
+  </div>
+
+  <div id="menu-controls-info" class="menu-controls-info">
+    <span class="menu-control-text">🎮 Press X to toggle menu</span>
+  </div>
+
+  <div id="menu-grid" class="menu-grid">
+    <div id="menu-item-teleport" class="menu-item" data-action="teleport">
+      <span class="menu-icon">🚀</span>
+      <div class="menu-content">
+        <div class="menu-label">Teleport to Stage</div>
+        <div class="menu-shortcut">Press T</div>
+      </div>
+      <span class="menu-arrow">→</span>
+    </div>
+
+    <div id="menu-item-reset" class="menu-item" data-action="reset">
+      <span class="menu-icon">🔄</span>
+      <div class="menu-content">
+        <div class="menu-label">Reset View</div>
+        <div class="menu-shortcut">Press R</div>
+      </div>
+      <span class="menu-arrow">→</span>
+    </div>
+
+    <div id="menu-item-audio" class="menu-item" data-action="audio">
+      <span class="menu-icon">🔊</span>
+      <div class="menu-content">
+        <div class="menu-label">Toggle Audio</div>
+        <div class="menu-shortcut">Press M</div>
+      </div>
+      <span class="menu-arrow">→</span>
+    </div>
+
+    <div id="menu-item-scene" class="menu-item" data-action="scene">
+      <span class="menu-icon">🎨</span>
+      <div class="menu-content">
+        <div class="menu-label">Change Scene</div>
+        <div class="menu-shortcut">Press S</div>
+      </div>
+      <span class="menu-arrow">→</span>
+    </div>
+
+    <div id="menu-item-seat" class="menu-item" data-action="seat">
+      <span class="menu-icon">💺</span>
+      <div class="menu-content">
+        <div class="menu-label">Select Seat</div>
+        <div class="menu-shortcut">Press C</div>
+      </div>
+      <span class="menu-arrow">→</span>
+    </div>
+
+    <div id="menu-item-exit" class="menu-item" data-action="exit">
+      <span class="menu-icon">🚪</span>
+      <div class="menu-content">
+        <div class="menu-label">Exit VR</div>
+        <div class="menu-shortcut">Press E</div>
+      </div>
+      <span class="menu-arrow">→</span>
+    </div>
+  </div>
+</Panel>

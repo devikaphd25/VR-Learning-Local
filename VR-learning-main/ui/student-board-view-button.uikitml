@@ -1,0 +1,59 @@
+<!-- Student-only toggle for moving to and returning from the board-view seat. -->
+<style>
+  .screen-root {
+    width: 180;
+    height: 208;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    pointer-events: auto;
+    pointer-events-order: 71000;
+  }
+  .screen-circle {
+    width: 146;
+    height: 146;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(37, 99, 235, 0.28);
+    border-width: 3;
+    border-color: rgba(96, 165, 250, 0.85);
+    border-radius: 73;
+    cursor: pointer;
+    pointer-events: auto;
+    pointer-events-order: 71001;
+  }
+  .screen-icon {
+    width: 96;
+    height: 64;
+    object-fit: contain;
+    pointer-events: none;
+  }
+  .label {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 19;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 7;
+    pointer-events: none;
+  }
+  .status {
+    color: rgba(219, 234, 254, 0.78);
+    font-size: 12;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 3;
+    pointer-events: none;
+  }
+</style>
+
+<Panel id="student-board-view-root" class="screen-root">
+  <Button id="student-board-view-toggle" class="screen-circle">
+    <Image class="screen-icon" src="/images/icons/screen-button-icon.png" />
+  </Button>
+  <Text id="student-board-view-label" class="label">SCREEN</Text>
+  <Text class="status">Select to view</Text>
+</Panel>

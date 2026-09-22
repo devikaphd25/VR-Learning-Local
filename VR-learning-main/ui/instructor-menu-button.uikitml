@@ -1,0 +1,69 @@
+<style>
+  .menu-button-root {
+    width: 112;
+    height: 112;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(15, 23, 42, 0.88);
+
+    border-radius: 56;
+    border-width: 2;
+    border-color: rgba(148, 163, 184, 0.55);
+
+    cursor: pointer;
+    pointer-events: auto;
+    pointer-events-order: 10001;
+  }
+
+  .menu-button-root:hover {
+    background-color: rgba(30, 64, 175, 0.9);
+    border-color: rgba(191, 219, 254, 0.95);
+  }
+
+  .menu-lines {
+    width: 52;
+
+    flex-direction: column;
+    gap: 9;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .menu-line {
+    width: 52;
+    height: 6;
+
+    background-color: rgba(255, 255, 255, 0.96);
+    border-radius: 3;
+    pointer-events: none;
+  }
+
+  .menu-label {
+    margin-top: 10;
+
+    color: #cbd5e1;
+    font-size: 14;
+    font-weight: 600;
+    font-family: inter;
+    pointer-events: none;
+  }
+</style>
+
+<button
+  id="instructor-menu-open-button"
+  class="menu-button-root"
+>
+  <div class="menu-lines">
+    <div class="menu-line"></div>
+    <div class="menu-line"></div>
+    <div class="menu-line"></div>
+  </div>
+
+  <span class="menu-label">
+    Dashboard
+  </span>
+</button>

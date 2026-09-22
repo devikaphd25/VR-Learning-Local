@@ -1,0 +1,87 @@
+<style>
+  .transfer-shell {
+    width: 70;
+    padding-top: 5;
+    padding-bottom: 5;
+    padding-left: 6;
+    padding-right: 6;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.2;
+    background-color: rgba(6, 12, 28, 0.98);
+    border-width: 0.25;
+    border-color: rgba(96, 165, 250, 0.9);
+    border-radius: 3.5;
+  }
+
+  .brand-row {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 2;
+  }
+
+  .brand-mark {
+    width: 8;
+    height: 8;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(37, 99, 235, 0.32);
+    border-width: 0.2;
+    border-color: #60a5fa;
+    border-radius: 4;
+    color: #bfdbfe;
+    font-size: 3.4;
+    font-weight: bold;
+  }
+
+  .transfer-title {
+    font-size: 3.8;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+  }
+
+  .transfer-subtitle {
+    font-size: 1.9;
+    color: #94a3b8;
+    text-align: center;
+  }
+
+  .progress-track {
+    width: 54;
+    height: 1.1;
+    margin-top: 1.5;
+    background-color: rgba(51, 65, 85, 0.9);
+    border-radius: 0.55;
+  }
+
+  .progress-fill {
+    width: 38;
+    height: 1.1;
+    background-color: #3b82f6;
+    border-radius: 0.55;
+  }
+
+  .transfer-status {
+    margin-top: 0.8;
+    font-size: 1.8;
+    color: #dbeafe;
+    text-align: center;
+  }
+</style>
+
+<Panel class="transfer-shell">
+  <Panel class="brand-row">
+    <Panel class="brand-mark">VR</Panel>
+    <Text class="transfer-title">Preparing Your Environment</Text>
+  </Panel>
+  <Text class="transfer-subtitle">
+    Keeping your headset session and classroom connection active
+  </Text>
+  <Panel class="progress-track">
+    <Panel class="progress-fill"></Panel>
+  </Panel>
+  <Text class="transfer-status">Transferring securely. Please wait...</Text>
+</Panel>
