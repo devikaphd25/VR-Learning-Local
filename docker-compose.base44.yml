@@ -1,0 +1,19 @@
+services:
+  app:
+    image: node:22
+    working_dir: /app
+    volumes:
+      - ./VR-learning-main:/app
+      - node_modules_data:/app/node_modules
+    ports:
+      - "3000:8081"
+    environment:
+      - __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS
+    env_file:
+      - ./VR-learning-main/.env.base44-defaults
+      - /run/base44/app.env
+    command: sh -c "npm install && (node --import tsx server.ts &) && npm run dev:runtime"
+    restart: unless-stopped
+
+volumes:
+  node_modules_data:

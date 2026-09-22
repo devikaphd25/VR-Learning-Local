@@ -10,7 +10,7 @@ import mkcert from "vite-plugin-mkcert";
 
 export default defineConfig({
   plugins: [
-    mkcert(),
+    ...(process.env.VITE_USE_MKCERT === "true" ? [mkcert()] : []),
 
     iwsdkDev({
       emulator: {
