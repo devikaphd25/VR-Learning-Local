@@ -31,7 +31,7 @@ export default defineConfig({
     host: "0.0.0.0",
   port: 8081,
   strictPort: true,
-  open: "/",
+  open: process.env.BASE44_DEV === "true" ? false : "/",
 
   proxy: {
     "/api": {

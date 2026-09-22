@@ -9,6 +9,7 @@ services:
       - "3000:8081"
     environment:
       - __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS
+      - BASE44_DEV=true
     env_file:
       - ./VR-learning-main/.env.base44-defaults
       - /run/base44/app.env
