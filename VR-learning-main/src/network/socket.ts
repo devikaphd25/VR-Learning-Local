@@ -9,8 +9,13 @@ import {
   io
 } from "socket.io-client";
 
+const serverHost =
+  window.location.hostname;
+
+
+
 const socketServerUrl =
-  window.location.origin;
+   `http://${serverHost}:3001`;
 
 const urlParams =
   new URLSearchParams(

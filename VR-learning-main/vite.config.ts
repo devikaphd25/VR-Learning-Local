@@ -10,7 +10,7 @@ import mkcert from "vite-plugin-mkcert";
 
 export default defineConfig({
   plugins: [
-    ...(process.env.VITE_USE_MKCERT === "true" ? [mkcert()] : []),
+    mkcert(),
 
     iwsdkDev({
       emulator: {
@@ -31,7 +31,7 @@ export default defineConfig({
     host: "0.0.0.0",
   port: 8081,
   strictPort: true,
-  open: process.env.BASE44_DEV === "true" ? false : "/",
+  open: "/",
 
   proxy: {
     "/api": {
