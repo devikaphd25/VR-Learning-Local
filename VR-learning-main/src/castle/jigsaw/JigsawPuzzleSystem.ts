@@ -100,10 +100,10 @@ function createJigsawBlockGeometry(
 const SHELF_X = 2.5 * S;
 const SHELF_Z = 4.6; // slightly in front of the wall so blocks are grabbable
 
-const BUTTON_Y = 0.6;
-const BUTTON_Z = 4.7; // mounted on wall, below the board
-const BUTTON_SPACING = 0.28 * S;
-const BUTTON_SIZE = 0.1 * S;
+const BUTTON_X = BOARD_WIDTH / 2 + 0.22 * S; // right side of the board
+const BUTTON_Z = BOARD_CENTER[2]; // mounted on wall, same plane as board
+const BUTTON_SPACING = 0.24 * S; // vertical spacing
+const BUTTON_SIZE = 0.14 * S;
 
 const SOLDIER_X = -2.5 * S;
 const SOLDIER_Z = 3.5 * S; // standing on the floor near the wall
@@ -271,25 +271,6 @@ export class JigsawPuzzleSystem extends createSystem({
     board.position.z = 0.02 * S;
     boardGroup.add(board);
 
-    // Slot markers — thin lighter strips showing where blocks go.
-    const slotMat = new MeshStandardMaterial({
-      color: SLOT_COLOR,
-      roughness: 0.85,
-      side: DoubleSide,
-    });
-    for (let i = 0; i < NUM_SLOTS; i++) {
-      const slotMarker = new Mesh(
-        new PlaneGeometry(BLOCK_WIDTH + 0.06 * S, SLOT_HEIGHT - 0.02 * S),
-        slotMat,
-      );
-      slotMarker.position.set(
-        this.slotPositions[i].x,
-        this.slotPositions[i].y,
-        -0.001,
-      );
-      boardGroup.add(slotMarker);
-    }
-
     boardGroup.position.set(
       BOARD_CENTER[0],
       BOARD_CENTER[1],
@@ -366,8 +347,11 @@ export class JigsawPuzzleSystem extends createSystem({
   // ── Buttons ───────────────────────────────────────────────
 
   private createButtons(): void {
-    const startX =
-      -((BUTTON_CONFIGS.length - 1) * BUTTON_SPACING) / 2;
+    // Buttons stacked vertically on the right side of the board, centred on
+    // the board's vertical centre.
+    const startY =
+      BOARD_CENTER[1] +
+      ((BUTTON_CONFIGS.length - 1) * BUTTON_SPACING) / 2;
 
     for (let i = 0; i < BUTTON_CONFIGS.length; i++) {
       const config = BUTTON_CONFIGS[i];
@@ -377,26 +361,31 @@ export class JigsawPuzzleSystem extends createSystem({
         color: config.color,
         roughness: 0.6,
         emissive: config.color,
-        emissiveIntensity: 0.1,
+        emissiveIntensity: 0.15,
       });
+      // Wider-than-tall button so the label text fits clearly on its face.
       const button = new Mesh(
-        new BoxGeometry(BUTTON_SIZE, BUTTON_SIZE * 0.4, BUTTON_SIZE),
+        new BoxGeometry(
+          BUTTON_SIZE * 1.8,
+          BUTTON_SIZE * 0.55,
+          BUTTON_SIZE * 0.7,
+        ),
         buttonMat,
       );
       group.add(button);
 
       const base = new Mesh(
         new BoxGeometry(
-          BUTTON_SIZE * 1.2,
-          BUTTON_SIZE * 0.1,
-          BUTTON_SIZE * 1.2,
+          BUTTON_SIZE * 2.0,
+          BUTTON_SIZE * 0.12,
+          BUTTON_SIZE * 0.9,
         ),
         new MeshStandardMaterial({
           color: 0x3a3a3a,
           roughness: 0.8,
         }),
       );
-      base.position.y = -BUTTON_SIZE * 0.25;
+      base.position.y = -BUTTON_SIZE * 0.34;
       group.add(base);
 
       const entity = this.world.createTransformEntity(group);
@@ -407,20 +396,21 @@ export class JigsawPuzzleSystem extends createSystem({
       entity.addComponent(RayInteractable);
 
       group.position.set(
-        startX + i * BUTTON_SPACING,
-        BUTTON_Y,
+        BUTTON_X,
+        startY - i * BUTTON_SPACING,
         BUTTON_Z,
       );
 
+      // Label sits on the front face of the button, facing the player.
       const label = this.world.createTransformEntity(undefined, {
         parent: entity,
       });
       label.addComponent(PanelUI, {
         config: "./ui/jigsaw-button.json",
-        maxWidth: BUTTON_SIZE * 1.5,
-        maxHeight: BUTTON_SIZE * 0.5,
+        maxWidth: BUTTON_SIZE * 2.2,
+        maxHeight: BUTTON_SIZE * 0.7,
       });
-      label.object3D!.position.set(0, BUTTON_SIZE * 0.35, 0);
+      label.object3D!.position.set(0, 0, -BUTTON_SIZE * 0.38);
       label.object3D!.rotation.y = Math.PI;
       this.pendingButtonLabels.set(label.index, config.label);
     }

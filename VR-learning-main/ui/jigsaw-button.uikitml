@@ -2,14 +2,14 @@
   .button-label {
     align-items: center;
     justify-content: center;
-    width: 15;
-    height: 8;
+    width: 22;
+    height: 10;
     background-color: transparent;
     display: flex;
     flex-direction: column;
   }
   #label {
-    font-size: 3;
+    font-size: 5;
     font-weight: bold;
     color: #ffffff;
     text-align: center;
