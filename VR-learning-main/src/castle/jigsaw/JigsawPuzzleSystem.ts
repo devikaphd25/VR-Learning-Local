@@ -37,8 +37,8 @@ import { attachToCastleRoot } from "./castleRoot.js";
 import { setTextSafe } from "../../lab/systems/uiText.js";
 
 // ── Layout ────────────────────────────────────────────────────
-// Mounted on the front wall (inner face at z ≈ +4.8), facing the player at -z.
-const BOARD_CENTER: [number, number, number] = [0, 1.4, 4.8];
+// Mounted on the back wall (inner face at z ≈ -4.8), facing the player at +z.
+const BOARD_CENTER: [number, number, number] = [0, 1.4, -4.8];
 const BOARD_WIDTH = 1.4;
 const BOARD_HEIGHT = 1.0;
 const SLOT_HEIGHT = 0.14;
@@ -96,15 +96,15 @@ function createJigsawBlockGeometry(
 }
 
 const SHELF_X = 2.5;
-const SHELF_Z = 4.6; // slightly in front of the wall so blocks are grabbable
+const SHELF_Z = -4.6; // slightly in front of the wall so blocks are grabbable
 
 const BUTTON_Y = 0.6;
-const BUTTON_Z = 4.7; // mounted on wall, below the board
+const BUTTON_Z = -4.7; // mounted on wall, below the board
 const BUTTON_SPACING = 0.28;
 const BUTTON_SIZE = 0.1;
 
 const SOLDIER_X = -2.5;
-const SOLDIER_Z = 3.5; // standing on the floor near the wall
+const SOLDIER_Z = -3.5; // standing on the floor near the wall
 
 // ── Colours ──────────────────────────────────────────────────
 const BLOCK_COLOR = 0xd4a76a;
@@ -266,7 +266,7 @@ export class JigsawPuzzleSystem extends createSystem({
       new BoxGeometry(BOARD_WIDTH, BOARD_HEIGHT, 0.04),
       boardMat,
     );
-    board.position.z = 0.02;
+    board.position.z = -0.02;
     boardGroup.add(board);
 
     // Slot markers — thin lighter strips showing where blocks go.
@@ -283,7 +283,7 @@ export class JigsawPuzzleSystem extends createSystem({
       slotMarker.position.set(
         this.slotPositions[i].x,
         this.slotPositions[i].y,
-        -0.001,
+        0.001,
       );
       boardGroup.add(slotMarker);
     }
@@ -342,9 +342,8 @@ export class JigsawPuzzleSystem extends createSystem({
       face.object3D!.position.set(
         0,
         0,
-        -(BLOCK_THICKNESS / 2 + 0.001),
+        BLOCK_THICKNESS / 2 + 0.001,
       );
-      face.object3D!.rotation.y = Math.PI;
       block.setValue(JigsawBlock, "faceEntity", face);
 
       const home = this.homePositions.get(origIdx)!;
@@ -414,7 +413,6 @@ export class JigsawPuzzleSystem extends createSystem({
         maxHeight: BUTTON_SIZE * 0.5,
       });
       label.object3D!.position.set(0, BUTTON_SIZE * 0.35, 0);
-      label.object3D!.rotation.y = Math.PI;
       this.pendingButtonLabels.set(label.index, config.label);
     }
   }
@@ -519,7 +517,7 @@ export class JigsawPuzzleSystem extends createSystem({
     soldier.add(instructionsEntity.object3D!);
 
     soldier.position.set(SOLDIER_X, 0, SOLDIER_Z);
-    soldier.lookAt(0, 1.3, -1.0);
+    soldier.lookAt(0, 1.3, 0);
     attachToCastleRoot(soldier);
   }
 
@@ -532,8 +530,7 @@ export class JigsawPuzzleSystem extends createSystem({
       maxWidth: 1.2,
       maxHeight: 0.6,
     });
-    entity.object3D!.position.set(0, 2.3, 4.8);
-    entity.object3D!.rotation.y = Math.PI;
+    entity.object3D!.position.set(0, 2.3, -4.8);
     attachToCastleRoot(entity.object3D!);
     this.feedbackEntity = entity;
     this.feedbackEntityIndex = entity.index;

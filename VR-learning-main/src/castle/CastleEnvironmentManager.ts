@@ -118,9 +118,9 @@ export class CastleEnvironmentManager {
 
     this.root.visible = true;
 
-    // Player faces the front wall (+z) where the puzzle assembly is mounted.
-    this.playerObject.position.set(0, 0, -1.0);
-    this.playerObject.rotation.set(0, Math.PI, 0);
+    // Player faces the back wall (-z) where the puzzle assembly is mounted.
+    this.playerObject.position.set(0, 0, 1.0);
+    this.playerObject.rotation.set(0, 0, 0);
     this.playerObject.updateMatrixWorld(true);
 
     socket.emit("studentJoinLab", {});
