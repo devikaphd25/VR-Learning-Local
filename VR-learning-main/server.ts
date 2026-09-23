@@ -3188,6 +3188,18 @@ socket.on(
 
       gameId =
         "python-type-lab";
+    } else if (
+      destination ===
+      "Game 2"
+    ) {
+      mode =
+        "Game Mode";
+
+      isGame =
+        true;
+
+      gameId =
+        "python-puzzle-1";
     }
 
     /*

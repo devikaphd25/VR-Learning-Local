@@ -70,6 +70,7 @@ from "./systems/challenge-2.system";
 import { Challenge2Device }
 from "./components/challenge-2.component";
 import { LabEnvironmentManager } from "./lab/LabEnvironmentManager";
+import { CastleEnvironmentManager } from "./castle/CastleEnvironmentManager";
 
 // ============================================================
 // USER ROLE TYPES
@@ -2505,6 +2506,14 @@ World.create(
         ])
       : null;
 
+    const castleEnvironmentManager = isStudent
+      ? new CastleEnvironmentManager(world, [
+          envMesh,
+          hintEntity?.object3D,
+          raiseHandEntity?.object3D,
+        ])
+      : null;
+
     // ========================================================
     // DEBUGGING REFERENCES
     // ========================================================
@@ -2541,6 +2550,7 @@ World.create(
     (window as any).toggleInstructorDashboard = toggleInstructorDashboard;
     (window as any).setInstructorDashboardOpen = setInstructorDashboardOpen;
     (window as any).labEnvironmentManager = labEnvironmentManager;
+    (window as any).castleEnvironmentManager = castleEnvironmentManager;
 
     // ========================================================
     // REMOVE STARTUP SCREEN
