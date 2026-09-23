@@ -1832,6 +1832,14 @@ export class InstructorDashboardSystem extends createSystem({
         type: "GAME",
         title: "True or False",
         description: "Launch a quick true-or-false class challenge"
+      },
+      {
+        kind: "game" as const,
+        key: "game:python-puzzle-1",
+        game: "python-puzzle-1" as const,
+        type: "GAME",
+        title: "Python Puzzle 1",
+        description: "Launch the first Python puzzle challenge"
       }
     ];
   }
@@ -1847,6 +1855,7 @@ export class InstructorDashboardSystem extends createSystem({
     this.renderLessonPage();
     if (item.kind === "game") {
       if (item.game === "lab") this.toggleLabActivity();
+      else if (item.game === "python-puzzle-1") this.showStatusMessage("Python Puzzle 1 is starting…");
       else this.activateTrueFalseChallenge();
       return;
     }
