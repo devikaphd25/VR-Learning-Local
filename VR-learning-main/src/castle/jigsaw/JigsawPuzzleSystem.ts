@@ -37,7 +37,8 @@ import { attachToCastleRoot } from "./castleRoot.js";
 import { setTextSafe } from "../../lab/systems/uiText.js";
 
 // ── Layout ────────────────────────────────────────────────────
-const BOARD_CENTER: [number, number, number] = [0, 1.2, -0.7];
+// Mounted on the back wall (inner face at z ≈ -4.8).
+const BOARD_CENTER: [number, number, number] = [0, 1.4, -4.8];
 const BOARD_WIDTH = 1.4;
 const BOARD_HEIGHT = 1.0;
 const SLOT_HEIGHT = 0.14;
@@ -95,15 +96,15 @@ function createJigsawBlockGeometry(
 }
 
 const SHELF_X = 2.5;
-const SHELF_Z = -0.7;
+const SHELF_Z = -4.6; // slightly in front of the wall so blocks are grabbable
 
-const BUTTON_Y = 0.5;
-const BUTTON_Z = -0.5;
+const BUTTON_Y = 0.6;
+const BUTTON_Z = -4.7; // mounted on wall, below the board
 const BUTTON_SPACING = 0.28;
 const BUTTON_SIZE = 0.1;
 
 const SOLDIER_X = -2.5;
-const SOLDIER_Z = -1.5;
+const SOLDIER_Z = -3.5; // standing on the floor near the wall
 
 // ── Colours ──────────────────────────────────────────────────
 const BLOCK_COLOR = 0xd4a76a;
@@ -516,7 +517,7 @@ export class JigsawPuzzleSystem extends createSystem({
     soldier.add(instructionsEntity.object3D!);
 
     soldier.position.set(SOLDIER_X, 0, SOLDIER_Z);
-    soldier.lookAt(0, 1.3, 0);
+    soldier.lookAt(0, 1.3, 1.0);
     attachToCastleRoot(soldier);
   }
 
@@ -529,7 +530,7 @@ export class JigsawPuzzleSystem extends createSystem({
       maxWidth: 1.2,
       maxHeight: 0.6,
     });
-    entity.object3D!.position.set(0, 2.0, -0.7);
+    entity.object3D!.position.set(0, 2.3, -4.8);
     attachToCastleRoot(entity.object3D!);
     this.feedbackEntity = entity;
     this.feedbackEntityIndex = entity.index;

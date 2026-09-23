@@ -118,8 +118,8 @@ export class CastleEnvironmentManager {
 
     this.root.visible = true;
 
-    // Place the player back from the puzzle so the assembly is in comfortable view.
-    this.playerObject.position.set(0, 0, 2.0);
+    // Place the player so the wall-mounted puzzle assembly is in comfortable view.
+    this.playerObject.position.set(0, 0, 1.0);
     this.playerObject.rotation.set(0, 0, 0);
     this.playerObject.updateMatrixWorld(true);
 
