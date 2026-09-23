@@ -11,18 +11,19 @@ import {
   BoxGeometry,
   ConeGeometry,
   CylinderGeometry,
+  DistanceGrabbable,
   DoubleSide,
   Grabbed,
   Group,
   Hovered,
-  Interactable,
   Mesh,
   MeshStandardMaterial,
-  OneHandGrabbable,
+  MovementMode,
   PanelDocument,
   PanelUI,
   PlaneGeometry,
   Pressed,
+  RayInteractable,
   SphereGeometry,
   type UIKitDocument,
   Vector3,
@@ -326,10 +327,13 @@ export class JigsawPuzzleSystem extends createSystem({
         originalIndex: origIdx,
         faceEntity: null,
       });
-      block.addComponent(Interactable);
-      block.addComponent(OneHandGrabbable, {
+      block.addComponent(RayInteractable);
+      block.addComponent(DistanceGrabbable, {
         rotate: false,
         translate: true,
+        movementMode: MovementMode.MoveFromTarget,
+        returnToOrigin: false,
+        detachOnGrab: false,
       });
 
       const face = this.world.createTransformEntity(undefined, {
@@ -400,7 +404,7 @@ export class JigsawPuzzleSystem extends createSystem({
       entity.addComponent(JigsawButton, {
         buttonType: config.type,
       });
-      entity.addComponent(Interactable);
+      entity.addComponent(RayInteractable);
 
       group.position.set(
         startX + i * BUTTON_SPACING,
