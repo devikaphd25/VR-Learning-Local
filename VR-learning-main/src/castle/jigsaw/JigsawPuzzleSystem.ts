@@ -190,45 +190,60 @@ export class JigsawPuzzleSystem extends createSystem({
 
     // Handle block release — snap to nearest slot or return home.
     this.queries.heldBlocks.subscribe("disqualify", (block) => {
-      this.handleBlockRelease(block);
+      try {
+        this.handleBlockRelease(block);
+      } catch (err) {
+        console.error("[Jigsaw] Block release error (non-fatal):", err);
+      }
     });
 
     // Handle button presses.
     this.queries.pressed.subscribe("qualify", (button) => {
-      this.handleButtonPress(button);
+      try {
+        this.handleButtonPress(button);
+      } catch (err) {
+        console.error("[Jigsaw] Button press error (non-fatal):", err);
+      }
     });
 
     this.cleanupFuncs.push(() => this.teardown());
   }
 
   update(delta: number) {
+    try {
+      this.updateInner(delta);
+    } catch (err) {
+      console.error("[Jigsaw] Update error (non-fatal):", err);
+    }
+  }
+
+  private updateInner(delta: number): void {
     // Apply pending text updates once PanelUI documents are ready.
-    for (const [faceIndex, text] of this.pendingBlockText) {
-      const doc = PanelDocument.data.document[faceIndex] as
-        | UIKitDocument
-        | undefined;
-      if (doc) {
-        setTextSafe(doc, "code", text);
-        this.pendingBlockText.delete(faceIndex);
+    const docs = PanelDocument.data?.document;
+    if (docs) {
+      for (const [faceIndex, text] of this.pendingBlockText) {
+        const doc = docs[faceIndex] as UIKitDocument | undefined;
+        if (doc) {
+          setTextSafe(doc, "code", text);
+          this.pendingBlockText.delete(faceIndex);
+        }
       }
-    }
 
-    for (const [labelIndex, label] of this.pendingButtonLabels) {
-      const doc = PanelDocument.data.document[labelIndex] as
-        | UIKitDocument
-        | undefined;
-      if (doc) {
-        setTextSafe(doc, "label", label);
-        this.pendingButtonLabels.delete(labelIndex);
+      for (const [labelIndex, label] of this.pendingButtonLabels) {
+        const doc = docs[labelIndex] as UIKitDocument | undefined;
+        if (doc) {
+          setTextSafe(doc, "label", label);
+          this.pendingButtonLabels.delete(labelIndex);
+        }
       }
-    }
 
-    if (this.feedbackEntityIndex >= 0 && !this.feedbackDoc) {
-      const doc = PanelDocument.data.document[
-        this.feedbackEntityIndex
-      ] as UIKitDocument | undefined;
-      if (doc) {
-        this.feedbackDoc = doc;
+      if (this.feedbackEntityIndex >= 0 && !this.feedbackDoc) {
+        const doc = docs[this.feedbackEntityIndex] as
+          | UIKitDocument
+          | undefined;
+        if (doc) {
+          this.feedbackDoc = doc;
+        }
       }
     }
 
@@ -849,9 +864,10 @@ export class JigsawPuzzleSystem extends createSystem({
     const face = block.getValue(JigsawBlock, "faceEntity");
     if (!face) return;
 
-    const doc = PanelDocument.data.document[face.index] as
-      | UIKitDocument
-      | undefined;
+    const docs = PanelDocument.data?.document;
+    if (!docs) return;
+
+    const doc = docs[face.index] as UIKitDocument | undefined;
     if (!doc) {
       this.pendingBlockText.set(face.index, indentedText);
       return;
