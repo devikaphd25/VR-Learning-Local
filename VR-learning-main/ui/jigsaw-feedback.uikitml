@@ -1,0 +1,28 @@
+<style>
+  .feedback-board {
+    padding: 3;
+    width: 80;
+    height: 40;
+    background-color: #f5f0e6;
+    border-color: #7a1f2b;
+    border-width: 0.5;
+    border-radius: 2;
+    display: flex;
+    flex-direction: column;
+  }
+  #feedback-title {
+    font-size: 4;
+    font-weight: bold;
+    color: #7a1f2b;
+  }
+  #feedback-body {
+    font-size: 2.5;
+    color: #2a2a2a;
+    margin-top: 2;
+    white-space: pre;
+  }
+</style>
+<div class="feedback-board">
+  <div id="feedback-title">Feedback</div>
+  <div id="feedback-body">Arrange the code blocks and press Submit.</div>
+</div>

@@ -17,6 +17,9 @@ import type { Object3D } from "three";
 
 import { socket } from "../network/socket";
 import { hideAllMarkers } from "../components/instructor/seat-markers";
+import { setCastleRoot } from "./jigsaw/castleRoot.js";
+import { JigsawBlock, JigsawButton } from "./jigsaw/jigsawComponents.js";
+import { JigsawPuzzleSystem } from "./jigsaw/JigsawPuzzleSystem.js";
 
 type VisibilityRecord = {
   object: Object3D;
@@ -62,8 +65,25 @@ export class CastleEnvironmentManager {
     this.root.visible = false;
     this.world.createTransformEntity(this.root);
 
+    setCastleRoot(this.root);
+    this.installJigsaw();
+
     this.buildCastle();
     this.connectNetwork();
+    this.connectExitHandler();
+  }
+
+  private installJigsaw(): void {
+    this.world
+      .registerComponent(JigsawBlock)
+      .registerComponent(JigsawButton)
+      .registerSystem(JigsawPuzzleSystem);
+  }
+
+  private connectExitHandler(): void {
+    window.addEventListener("castleExitRequested", () => {
+      this.returnToClassroom("student_exit");
+    });
   }
 
   isActive(): boolean {
