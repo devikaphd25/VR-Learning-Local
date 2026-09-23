@@ -339,10 +339,12 @@ export class JigsawPuzzleSystem extends createSystem({
         maxWidth: BLOCK_WIDTH,
         maxHeight: BLOCK_HEIGHT,
       });
+      // Offset must clear the ExtrudeGeometry bevel (0.004) so the panel
+      // sits outside the opaque block mesh and is visible to the player.
       face.object3D!.position.set(
         0,
         0,
-        -(BLOCK_THICKNESS / 2 + 0.001),
+        -(BLOCK_THICKNESS / 2 + 0.006),
       );
       face.object3D!.rotation.y = Math.PI;
       block.setValue(JigsawBlock, "faceEntity", face);
@@ -437,11 +439,6 @@ export class JigsawPuzzleSystem extends createSystem({
       color: 0x4a4a4a,
       roughness: 0.8,
     });
-    const boardMat = new MeshStandardMaterial({
-      color: 0xf5f0e6,
-      roughness: 0.9,
-      side: DoubleSide,
-    });
 
     // Torso
     const torso = new Mesh(
@@ -499,28 +496,42 @@ export class JigsawPuzzleSystem extends createSystem({
     rightLeg.position.set(0.12, 0.3, 0);
     soldier.add(rightLeg);
 
-    // Instructions board backing (in front of the soldier, facing the player)
+    soldier.position.set(SOLDIER_X, 0, SOLDIER_Z);
+    soldier.lookAt(0, 1.3, -1.0);
+    attachToCastleRoot(soldier);
+
+    // Standalone instructions board — positioned between the soldier and the
+    // player, facing the player directly (not parented to the soldier, so the
+    // lookAt rotation on the soldier doesn't interfere).
     const boardBacking = new Mesh(
       new BoxGeometry(0.6, 0.8, 0.03),
-      boardMat,
+      new MeshStandardMaterial({
+        color: 0xf5f0e6,
+        roughness: 0.9,
+        side: DoubleSide,
+      }),
     );
-    boardBacking.position.set(0, 1.3, -0.45);
-    soldier.add(boardBacking);
+    // Place 0.5m toward the player from the soldier, at chest height.
+    const boardX = SOLDIER_X + 0.3;
+    const boardZ = SOLDIER_Z - 0.6;
+    boardBacking.position.set(boardX, 1.3, boardZ);
+    // Face the player at (0, ~1.3, -1.0)
+    boardBacking.lookAt(0, 1.3, -1.0);
+    attachToCastleRoot(boardBacking);
 
-    // Instructions text panel
     const instructionsEntity = this.world.createTransformEntity();
     instructionsEntity.addComponent(PanelUI, {
       config: "./ui/jigsaw-instructions.json",
       maxWidth: 0.55,
       maxHeight: 0.75,
     });
-    instructionsEntity.object3D!.position.set(0, 1.3, -0.47);
-    instructionsEntity.object3D!.rotation.y = Math.PI;
-    soldier.add(instructionsEntity.object3D!);
-
-    soldier.position.set(SOLDIER_X, 0, SOLDIER_Z);
-    soldier.lookAt(0, 1.3, -1.0);
-    attachToCastleRoot(soldier);
+    instructionsEntity.object3D!.position.set(boardX, 1.3, boardZ - 0.02);
+    // PanelUI text faces +z by default; rotate to face the player.
+    instructionsEntity.object3D!.rotation.y = Math.atan2(
+      0 - boardX,
+      -1.0 - boardZ,
+    );
+    attachToCastleRoot(instructionsEntity.object3D!);
   }
 
   // ── Feedback panel ────────────────────────────────────────
