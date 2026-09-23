@@ -33,9 +33,10 @@ import {
 import { ExtrudeGeometry, Shape } from "three";
 
 import { JigsawBlock, JigsawButton } from "./jigsawComponents.js";
-import { PUZZLE_LINES, SHUFFLED_ORDER } from "./puzzleData.js";
+import { PUZZLE_LINES, SHUFFLED_ORDER, EXPECTED_OUTPUT } from "./puzzleData.js";
 import { attachToCastleRoot } from "./castleRoot.js";
 import { setTextSafe } from "../../lab/systems/uiText.js";
+import { runPython } from "./pythonRunner.js";
 
 // ── Layout ────────────────────────────────────────────────────
 // Mounted on the front wall (inner face at z ≈ +4.8), rotated 180° to face the player at -z.
@@ -708,72 +709,34 @@ export class JigsawPuzzleSystem extends createSystem({
       });
     }
 
-    const result = this.validateCode(slots);
-    if (result.correct) {
-      this.showFeedback(
-        "Success!",
-        "Correct! The code runs successfully.\n\nOutput:\n52\n50\n51\n47\nTotal: 200\nAverage: 50.0",
-      );
-      this.showGoldCoins();
+    // Assemble the Python source from the placed blocks.
+    const code = slots
+      .map((s) => "    ".repeat(s.indent) + s.text)
+      .join("\n");
+
+    this.showFeedback("Running…", "Executing your Python code…");
+    void this.executePython(code);
+  }
+
+  private async executePython(code: string): Promise<void> {
+    const result = await runPython(code);
+
+    if (result.success) {
+      if (result.output.trim() === EXPECTED_OUTPUT.trim()) {
+        this.showFeedback(
+          "Success!",
+          `Correct! The code runs successfully.\n\nOutput:\n${result.output.trim()}`,
+        );
+        this.showGoldCoins();
+      } else {
+        this.showFeedback(
+          "Wrong Output",
+          `The code runs but produces the wrong output.\n\nYour output:\n${result.output.trim()}\n\nExpected:\n${EXPECTED_OUTPUT.trim()}`,
+        );
+      }
     } else {
       this.showFeedback("Error", result.error);
     }
-  }
-
-  // ── Code validation ───────────────────────────────────────
-
-  private validateCode(
-    slots: { text: string; indent: number }[],
-  ): { correct: boolean; error: string } {
-    const correctTexts = PUZZLE_LINES.map((l) => l.text);
-    const correctIndents = PUZZLE_LINES.map((l) => l.correctIndent);
-
-    // Check order first.
-    for (let i = 0; i < NUM_SLOTS; i++) {
-      if (slots[i].text !== correctTexts[i]) {
-        // Generate a relevant Python error.
-        if (
-          slots[i].text.includes("total = total + lap") &&
-          i < 3
-        ) {
-          return {
-            correct: false,
-            error: `NameError: name 'lap' is not defined\n\nLine ${i + 1}: ${slots[i].text}`,
-          };
-        }
-        if (
-          slots[i].text.startsWith("print(") &&
-          i < 3
-        ) {
-          return {
-            correct: false,
-            error: `NameError: name not defined\n\nLine ${i + 1}: ${slots[i].text}`,
-          };
-        }
-        return {
-          correct: false,
-          error: `SyntaxError: invalid syntax\n\nLine ${i + 1}: ${slots[i].text}`,
-        };
-      }
-    }
-
-    // Check indentation.
-    for (let i = 0; i < NUM_SLOTS; i++) {
-      if (slots[i].indent !== correctIndents[i]) {
-        if (correctIndents[i] === 1 && slots[i].indent === 0) {
-          return {
-            correct: false,
-            error: `IndentationError: expected an indented block\n\nLine ${i + 1}: ${slots[i].text}`,
-          };
-        }
-        return {
-          correct: false,
-          error: `IndentationError: unexpected indent\n\nLine ${i + 1}: ${slots[i].text}`,
-        };
-      }
-    }
-
-    return { correct: true, error: "" };
   }
 
   // ── Feedback ──────────────────────────────────────────────
