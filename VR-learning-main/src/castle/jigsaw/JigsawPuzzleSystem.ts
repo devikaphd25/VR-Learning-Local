@@ -38,16 +38,17 @@ import { setTextSafe } from "../../lab/systems/uiText.js";
 
 // ── Layout ────────────────────────────────────────────────────
 // Mounted on the front wall (inner face at z ≈ +4.8), rotated 180° to face the player at -z.
+const S = 1.1; // global scale factor for the entire puzzle assembly
 const BOARD_CENTER: [number, number, number] = [0, 1.4, 4.8];
-const BOARD_WIDTH = 1.4;
-const BOARD_HEIGHT = 1.0;
-const SLOT_HEIGHT = 0.14;
+const BOARD_WIDTH = 1.4 * S;
+const BOARD_HEIGHT = 1.0 * S;
+const SLOT_HEIGHT = 0.14 * S;
 const NUM_SLOTS = 7;
 
-const BLOCK_WIDTH = 1.1;
-const BLOCK_HEIGHT = 0.11;
-const BLOCK_THICKNESS = 0.03;
-const INDENT_SHIFT = 0.15;
+const BLOCK_WIDTH = 1.1 * S;
+const BLOCK_HEIGHT = 0.11 * S;
+const BLOCK_THICKNESS = 0.03 * S;
+const INDENT_SHIFT = 0.15 * S;
 const TAB_RADIUS = BLOCK_HEIGHT * 0.35;
 
 /**
@@ -86,8 +87,8 @@ function createJigsawBlockGeometry(
   const geo = new ExtrudeGeometry(shape, {
     depth,
     bevelEnabled: true,
-    bevelThickness: 0.004,
-    bevelSize: 0.004,
+    bevelThickness: 0.004 * S,
+    bevelSize: 0.004 * S,
     bevelSegments: 2,
   });
   // Centre on z so the face panel position stays the same as with BoxGeometry.
@@ -95,16 +96,16 @@ function createJigsawBlockGeometry(
   return geo;
 }
 
-const SHELF_X = 2.5;
+const SHELF_X = 2.5 * S;
 const SHELF_Z = 4.6; // slightly in front of the wall so blocks are grabbable
 
 const BUTTON_Y = 0.6;
 const BUTTON_Z = 4.7; // mounted on wall, below the board
-const BUTTON_SPACING = 0.28;
-const BUTTON_SIZE = 0.1;
+const BUTTON_SPACING = 0.28 * S;
+const BUTTON_SIZE = 0.1 * S;
 
-const SOLDIER_X = -2.5;
-const SOLDIER_Z = 3.5; // standing on the floor near the wall
+const SOLDIER_X = -2.5 * S;
+const SOLDIER_Z = 3.5 * S; // standing on the floor near the wall
 
 // ── Colours ──────────────────────────────────────────────────
 const BLOCK_COLOR = 0xd4a76a;
@@ -263,10 +264,10 @@ export class JigsawPuzzleSystem extends createSystem({
       roughness: 0.9,
     });
     const board = new Mesh(
-      new BoxGeometry(BOARD_WIDTH, BOARD_HEIGHT, 0.04),
+      new BoxGeometry(BOARD_WIDTH, BOARD_HEIGHT, 0.04 * S),
       boardMat,
     );
-    board.position.z = 0.02;
+    board.position.z = 0.02 * S;
     boardGroup.add(board);
 
     // Slot markers — thin lighter strips showing where blocks go.
@@ -277,7 +278,7 @@ export class JigsawPuzzleSystem extends createSystem({
     });
     for (let i = 0; i < NUM_SLOTS; i++) {
       const slotMarker = new Mesh(
-        new PlaneGeometry(BLOCK_WIDTH + 0.06, SLOT_HEIGHT - 0.02),
+        new PlaneGeometry(BLOCK_WIDTH + 0.06 * S, SLOT_HEIGHT - 0.02 * S),
         slotMat,
       );
       slotMarker.position.set(
@@ -344,7 +345,7 @@ export class JigsawPuzzleSystem extends createSystem({
       face.object3D!.position.set(
         0,
         0,
-        -(BLOCK_THICKNESS / 2 + 0.006),
+        -(BLOCK_THICKNESS / 2 + 0.006 * S),
       );
       face.object3D!.rotation.y = Math.PI;
       block.setValue(JigsawBlock, "faceEntity", face);
@@ -442,90 +443,90 @@ export class JigsawPuzzleSystem extends createSystem({
 
     // Torso
     const torso = new Mesh(
-      new CylinderGeometry(0.25, 0.3, 0.8, 12),
+      new CylinderGeometry(0.25 * S, 0.3 * S, 0.8 * S, 12),
       armorMat,
     );
-    torso.position.y = 1.0;
+    torso.position.y = 1.0 * S;
     soldier.add(torso);
 
     // Head
     const head = new Mesh(
-      new SphereGeometry(0.15, 12, 12),
+      new SphereGeometry(0.15 * S, 12, 12),
       skinMat,
     );
-    head.position.set(0, 1.55, -0.05);
+    head.position.set(0, 1.55 * S, -0.05 * S);
     soldier.add(head);
 
     // Helmet
     const helmet = new Mesh(
-      new ConeGeometry(0.18, 0.2, 12),
+      new ConeGeometry(0.18 * S, 0.2 * S, 12),
       armorMat,
     );
-    helmet.position.set(0, 1.72, -0.05);
+    helmet.position.set(0, 1.72 * S, -0.05 * S);
     soldier.add(helmet);
 
     // Left arm — extended forward to hold the board
     const leftArm = new Mesh(
-      new CylinderGeometry(0.06, 0.06, 0.6, 8),
+      new CylinderGeometry(0.06 * S, 0.06 * S, 0.6 * S, 8),
       armorMat,
     );
-    leftArm.position.set(-0.25, 1.2, -0.25);
+    leftArm.position.set(-0.25 * S, 1.2 * S, -0.25 * S);
     leftArm.rotation.x = Math.PI / 3;
     soldier.add(leftArm);
 
     // Right arm
     const rightArm = new Mesh(
-      new CylinderGeometry(0.06, 0.06, 0.5, 8),
+      new CylinderGeometry(0.06 * S, 0.06 * S, 0.5 * S, 8),
       armorMat,
     );
-    rightArm.position.set(0.3, 1.1, 0);
+    rightArm.position.set(0.3 * S, 1.1 * S, 0);
     rightArm.rotation.z = -Math.PI / 6;
     soldier.add(rightArm);
 
     // Legs
     const leftLeg = new Mesh(
-      new CylinderGeometry(0.08, 0.08, 0.6, 8),
+      new CylinderGeometry(0.08 * S, 0.08 * S, 0.6 * S, 8),
       darkMat,
     );
-    leftLeg.position.set(-0.12, 0.3, 0);
+    leftLeg.position.set(-0.12 * S, 0.3 * S, 0);
     soldier.add(leftLeg);
     const rightLeg = new Mesh(
-      new CylinderGeometry(0.08, 0.08, 0.6, 8),
+      new CylinderGeometry(0.08 * S, 0.08 * S, 0.6 * S, 8),
       darkMat,
     );
-    rightLeg.position.set(0.12, 0.3, 0);
+    rightLeg.position.set(0.12 * S, 0.3 * S, 0);
     soldier.add(rightLeg);
 
     soldier.position.set(SOLDIER_X, 0, SOLDIER_Z);
-    soldier.lookAt(0, 1.3, -1.0);
+    soldier.lookAt(0, 1.3 * S, -1.0);
     attachToCastleRoot(soldier);
 
     // Standalone instructions board — positioned between the soldier and the
     // player, facing the player directly (not parented to the soldier, so the
     // lookAt rotation on the soldier doesn't interfere).
     const boardBacking = new Mesh(
-      new BoxGeometry(0.6, 0.8, 0.03),
+      new BoxGeometry(0.6 * S, 0.8 * S, 0.03 * S),
       new MeshStandardMaterial({
         color: 0xf5f0e6,
         roughness: 0.9,
         side: DoubleSide,
       }),
     );
-    // Place 0.5m toward the player from the soldier, at chest height.
-    const boardX = SOLDIER_X + 0.3;
-    const boardZ = SOLDIER_Z - 0.6;
-    boardBacking.position.set(boardX, 1.3, boardZ);
+    // Place toward the player from the soldier, at chest height.
+    const boardX = SOLDIER_X + 0.3 * S;
+    const boardZ = SOLDIER_Z - 0.6 * S;
+    boardBacking.position.set(boardX, 1.3 * S, boardZ);
     // Face the player at (0, ~1.3, -1.0)
-    boardBacking.lookAt(0, 1.3, -1.0);
+    boardBacking.lookAt(0, 1.3 * S, -1.0);
     attachToCastleRoot(boardBacking);
 
     const instructionsEntity = this.world.createTransformEntity();
     instructionsEntity.addComponent(PanelUI, {
       config: "./ui/jigsaw-instructions.json",
-      maxWidth: 0.55,
-      maxHeight: 0.75,
+      maxWidth: 0.55 * S,
+      maxHeight: 0.75 * S,
     });
-    instructionsEntity.object3D!.position.set(boardX, 1.3, boardZ - 0.02);
+    instructionsEntity.object3D!.position.set(boardX, 1.3 * S, boardZ - 0.02 * S);
     // PanelUI text faces +z by default; rotate to face the player.
     instructionsEntity.object3D!.rotation.y = Math.atan2(
       0 - boardX,
@@ -540,10 +541,10 @@ export class JigsawPuzzleSystem extends createSystem({
     const entity = this.world.createTransformEntity();
     entity.addComponent(PanelUI, {
       config: "./ui/jigsaw-feedback.json",
-      maxWidth: 1.2,
-      maxHeight: 0.6,
+      maxWidth: 1.2 * S,
+      maxHeight: 0.6 * S,
     });
-    entity.object3D!.position.set(0, 2.3, 4.8);
+    entity.object3D!.position.set(0, 2.3 * S, 4.8);
     entity.object3D!.rotation.y = Math.PI;
     attachToCastleRoot(entity.object3D!);
     this.feedbackEntity = entity;
@@ -560,7 +561,7 @@ export class JigsawPuzzleSystem extends createSystem({
     const dz = this.tmpVec.z - BOARD_CENTER[2];
     const distToBoard = Math.sqrt(dx * dx + dz * dz);
 
-    if (distToBoard > 0.8) {
+    if (distToBoard > 0.8 * S) {
       this.returnBlockHome(block);
       return;
     }
@@ -578,7 +579,7 @@ export class JigsawPuzzleSystem extends createSystem({
       }
     }
 
-    if (nearestSlot < 0 || nearestDist > 0.25) {
+    if (nearestSlot < 0 || nearestDist > 0.25 * S) {
       this.returnBlockHome(block);
       return;
     }
@@ -771,7 +772,7 @@ export class JigsawPuzzleSystem extends createSystem({
 
   private showGoldCoins(): void {
     this.coinAnimation = true;
-    const coinGeo = new CylinderGeometry(0.03, 0.03, 0.008, 12);
+    const coinGeo = new CylinderGeometry(0.03 * S, 0.03 * S, 0.008 * S, 12);
     const coinMat = new MeshStandardMaterial({
       color: GOLD_COLOR,
       emissive: GOLD_COLOR,
@@ -784,9 +785,9 @@ export class JigsawPuzzleSystem extends createSystem({
     for (let i = 0; i < 40; i++) {
       const coin = new Mesh(coinGeo, coinMat);
       coin.position.set(
-        BOARD_CENTER[0] + (Math.random() - 0.5) * 0.3,
+        BOARD_CENTER[0] + (Math.random() - 0.5) * 0.3 * S,
         BOARD_CENTER[1],
-        BOARD_CENTER[2] + (Math.random() - 0.5) * 0.3,
+        BOARD_CENTER[2] + (Math.random() - 0.5) * 0.3 * S,
       );
       const velocity = new Vector3(
         (Math.random() - 0.5) * 2,
