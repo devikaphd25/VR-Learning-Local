@@ -668,7 +668,7 @@ export class JigsawPuzzleSystem extends createSystem({
 
     const pos = this.slotPositions[slot];
     targetBlock.object3D!.position.set(
-      pos.x + indent * INDENT_SHIFT,
+      pos.x - indent * INDENT_SHIFT,
       pos.y,
       pos.z,
     );
@@ -881,7 +881,7 @@ export class JigsawPuzzleSystem extends createSystem({
     const indent = block.getValue(JigsawBlock, "indent") ?? 0;
     const pos = this.slotPositions[slot];
     block.object3D!.position.set(
-      pos.x + indent * INDENT_SHIFT,
+      pos.x - indent * INDENT_SHIFT,
       pos.y,
       pos.z,
     );

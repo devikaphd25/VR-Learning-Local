@@ -313,11 +313,10 @@ socket.on("classEnded", (data: { roomId?: string; message?: string }) => {
   // server shutdown event, even if an older client has a missing/stale saved
   // room id, so no student remains trapped after the instructor disconnects.
   console.log("[Classroom] Session ended:", data?.message ?? data?.roomId);
-  // Gracefully exit the castle/lab before reloading so the VR scene and
-  // socket state are cleaned up instead of freezing mid-frame.
+  // The castle/jigsaw game should only end when the user clicks the Exit
+  // button.  Do not reload the page while the castle is active.
   if ((window as any).isCastleActive) {
-    (window as any).isCastleActive = false;
-    window.dispatchEvent(new CustomEvent("castleExitRequested"));
+    return;
   }
   localStorage.removeItem("vrUser");
   localStorage.removeItem("vrClassroomSession");

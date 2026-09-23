@@ -373,26 +373,8 @@ export class CastleEnvironmentManager {
       }
     });
 
-    socket.on("returnToClassroom", data => {
-      this.returnToClassroom(data?.returnReason ?? "instructor_return");
-    });
-
-    socket.on("modeChanged", data => {
-      if (data?.mode === "Classroom Mode" && this.active) {
-        this.returnToClassroom("instructor_return");
-      }
-    });
-
-    socket.on("returnAllToClassroomNow", data => {
-      if (this.active) {
-        this.returnToClassroom(data?.returnReason ?? "instructor_return");
-      }
-    });
-
-    socket.on("allStudentsReturnedToClass", () => {
-      if (this.active) {
-        this.returnToClassroom("instructor_return");
-      }
-    });
+    // The castle/jigsaw game should only end when the user clicks the Exit
+    // button.  Server-driven return events are ignored while the castle is
+    // active so the puzzle is not interrupted abruptly.
   }
 }
