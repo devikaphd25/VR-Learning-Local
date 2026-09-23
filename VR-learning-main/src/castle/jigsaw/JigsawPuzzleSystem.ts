@@ -29,6 +29,7 @@ import {
   createSystem,
   type Entity,
 } from "@iwsdk/core";
+import { ExtrudeGeometry, Shape } from "three";
 
 import { JigsawBlock, JigsawButton } from "./jigsawComponents.js";
 import { PUZZLE_LINES, SHUFFLED_ORDER } from "./puzzleData.js";
@@ -46,6 +47,52 @@ const BLOCK_WIDTH = 1.1;
 const BLOCK_HEIGHT = 0.11;
 const BLOCK_THICKNESS = 0.03;
 const INDENT_SHIFT = 0.15;
+const TAB_RADIUS = BLOCK_HEIGHT * 0.35;
+
+/**
+ * Builds a jigsaw-piece-shaped geometry: a rounded rectangle with a tab
+ * (protrusion) on the top edge and a blank (indentation) on the bottom edge
+ * so stacked blocks interlock like real puzzle pieces.
+ */
+function createJigsawBlockGeometry(
+  width: number,
+  height: number,
+  depth: number,
+): ExtrudeGeometry {
+  const w = width / 2;
+  const h = height / 2;
+  const r = TAB_RADIUS;
+
+  const shape = new Shape();
+  shape.moveTo(-w, -h);
+
+  // Bottom edge — blank (semicircular indentation into the piece)
+  shape.lineTo(-r, -h);
+  shape.absarc(0, -h, r, Math.PI, 0, true);
+  shape.lineTo(w, -h);
+
+  // Right edge
+  shape.lineTo(w, h);
+
+  // Top edge — tab (semicircular protrusion away from the piece)
+  shape.lineTo(r, h);
+  shape.absarc(0, h, r, 0, Math.PI, false);
+  shape.lineTo(-w, h);
+
+  // Left edge
+  shape.lineTo(-w, -h);
+
+  const geo = new ExtrudeGeometry(shape, {
+    depth,
+    bevelEnabled: true,
+    bevelThickness: 0.004,
+    bevelSize: 0.004,
+    bevelSegments: 2,
+  });
+  // Centre on z so the face panel position stays the same as with BoxGeometry.
+  geo.translate(0, 0, -depth / 2);
+  return geo;
+}
 
 const SHELF_X = 2.5;
 const SHELF_Z = -0.7;
@@ -262,7 +309,7 @@ export class JigsawPuzzleSystem extends createSystem({
         roughness: 0.8,
       });
       const body = new Mesh(
-        new BoxGeometry(BLOCK_WIDTH, BLOCK_HEIGHT, BLOCK_THICKNESS),
+        createJigsawBlockGeometry(BLOCK_WIDTH, BLOCK_HEIGHT, BLOCK_THICKNESS),
         bodyMat,
       );
       group.add(body);

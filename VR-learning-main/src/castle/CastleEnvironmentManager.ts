@@ -118,8 +118,8 @@ export class CastleEnvironmentManager {
 
     this.root.visible = true;
 
-    // Place the player in the centre of the castle hall.
-    this.playerObject.position.set(0, 0, 0);
+    // Place the player back from the puzzle so the assembly is in comfortable view.
+    this.playerObject.position.set(0, 0, 2.0);
     this.playerObject.rotation.set(0, 0, 0);
     this.playerObject.updateMatrixWorld(true);
 
