@@ -1,8 +1,8 @@
 <style>
   .instructions-board {
-    padding: 3;
-    width: 60;
-    height: 80;
+    padding: 3.75;
+    width: 75;
+    height: 100;
     background-color: #f5f0e6;
     border-color: #7a1f2b;
     border-width: 0.5;
@@ -11,33 +11,33 @@
     flex-direction: column;
   }
   .instructions-title {
-    font-size: 3.5;
+    font-size: 4.4;
     font-weight: bold;
     color: #7a1f2b;
   }
   .instructions-body {
-    font-size: 2.2;
+    font-size: 2.75;
     color: #2a2a2a;
-    margin-top: 1.5;
+    margin-top: 1.875;
     white-space: pre;
   }
   .instructions-given {
-    font-size: 2.2;
+    font-size: 2.75;
     color: #2f5b8f;
-    margin-top: 1.5;
+    margin-top: 1.875;
     white-space: pre;
     font-weight: bold;
   }
   .instructions-expected-label {
-    font-size: 2.2;
+    font-size: 2.75;
     color: #2f6f4f;
-    margin-top: 1.5;
+    margin-top: 1.875;
     font-weight: bold;
   }
   .instructions-expected {
-    font-size: 2.2;
+    font-size: 2.75;
     color: #2f6f4f;
-    margin-top: 0.5;
+    margin-top: 0.625;
     white-space: pre;
   }
 </style>

@@ -100,7 +100,7 @@ function createJigsawBlockGeometry(
 const SHELF_X = 2.5 * S;
 const SHELF_Z = 4.6; // slightly in front of the wall so blocks are grabbable
 
-const BUTTON_X = BOARD_WIDTH / 2 + 0.22 * S; // right side of the board
+const BUTTON_X = -(BOARD_WIDTH / 2 + 0.22 * S); // right side of the board (player's right = -x)
 const BUTTON_Z = BOARD_CENTER[2]; // mounted on wall, same plane as board
 const BUTTON_SPACING = 0.24 * S; // vertical spacing
 const BUTTON_SIZE = 0.14 * S;
@@ -499,7 +499,7 @@ export class JigsawPuzzleSystem extends createSystem({
     // player, facing the player directly (not parented to the soldier, so the
     // lookAt rotation on the soldier doesn't interfere).
     const boardBacking = new Mesh(
-      new BoxGeometry(0.6 * S, 0.8 * S, 0.03 * S),
+      new BoxGeometry(0.75 * S, 1.0 * S, 0.03 * S),
       new MeshStandardMaterial({
         color: 0xf5f0e6,
         roughness: 0.9,
@@ -517,8 +517,8 @@ export class JigsawPuzzleSystem extends createSystem({
     const instructionsEntity = this.world.createTransformEntity();
     instructionsEntity.addComponent(PanelUI, {
       config: "./ui/jigsaw-instructions.json",
-      maxWidth: 0.55 * S,
-      maxHeight: 0.75 * S,
+      maxWidth: 0.6875 * S,
+      maxHeight: 0.9375 * S,
     });
     instructionsEntity.object3D!.position.set(boardX, 1.3 * S, boardZ - 0.02 * S);
     // PanelUI text faces +z by default; rotate to face the player.
