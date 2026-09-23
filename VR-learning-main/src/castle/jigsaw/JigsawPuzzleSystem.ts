@@ -37,6 +37,7 @@ import { PUZZLE_LINES, SHUFFLED_ORDER, EXPECTED_OUTPUT } from "./puzzleData.js";
 import { attachToCastleRoot } from "./castleRoot.js";
 import { setTextSafe } from "../../lab/systems/uiText.js";
 import { runPython } from "./pythonRunner.js";
+import { socket } from "../../network/socket";
 
 // ── Layout ────────────────────────────────────────────────────
 // Mounted on the front wall (inner face at z ≈ +4.8), rotated 180° to face the player at -z.
@@ -728,6 +729,7 @@ export class JigsawPuzzleSystem extends createSystem({
           `Correct! The code runs successfully.\n\nOutput:\n${result.output.trim()}`,
         );
         this.showGoldCoins();
+        this.reportScoreToInstructor();
       } else {
         this.showFeedback(
           "Wrong Output",
@@ -737,6 +739,26 @@ export class JigsawPuzzleSystem extends createSystem({
     } else {
       this.showFeedback("Error", result.error);
     }
+  }
+
+  /** Sends the puzzle result to the server so the instructor dashboard sees it. */
+  private reportScoreToInstructor(): void {
+    if ((window as any).jigsawPuzzleSolved) return; // prevent duplicate sends
+    (window as any).jigsawPuzzleSolved = true;
+
+    const puzzleResult = {
+      status: "completed" as const,
+      score: 100,
+      correctAnswers: 1,
+      wrongAnswers: 0,
+      completedCards: 1,
+      totalCards: 1,
+      accuracy: 100,
+      durationSeconds: 0,
+    };
+
+    socket.emit("labProgressUpdated", puzzleResult);
+    socket.emit("labCompleted", { result: puzzleResult });
   }
 
   // ── Feedback ──────────────────────────────────────────────
@@ -759,21 +781,37 @@ export class JigsawPuzzleSystem extends createSystem({
       transparent: true,
     });
 
-    for (let i = 0; i < 40; i++) {
+    // Splash coins from the player's position so they burst upward and rain
+    // back down on the user in a celebratory fountain.
+    const playerPos = this.getPlayerPosition();
+    const COIN_COUNT = 80;
+    for (let i = 0; i < COIN_COUNT; i++) {
       const coin = new Mesh(coinGeo, coinMat);
+      const angle = (i / COIN_COUNT) * Math.PI * 2 + Math.random() * 0.3;
+      const radius = 0.1 + Math.random() * 0.5;
       coin.position.set(
-        BOARD_CENTER[0] + (Math.random() - 0.5) * 0.3 * S,
-        BOARD_CENTER[1],
-        BOARD_CENTER[2] + (Math.random() - 0.5) * 0.3 * S,
+        playerPos.x + Math.cos(angle) * radius,
+        playerPos.y + 1.0,
+        playerPos.z + Math.sin(angle) * radius,
       );
+      // Shoot upward and outward; gravity brings them back down.
       const velocity = new Vector3(
-        (Math.random() - 0.5) * 2,
-        2 + Math.random() * 2,
-        (Math.random() - 0.5) * 2,
+        Math.cos(angle) * (1.5 + Math.random() * 2),
+        4 + Math.random() * 4,
+        Math.sin(angle) * (1.5 + Math.random() * 2),
       );
-      this.coins.push({ mesh: coin, velocity, life: 1.0 });
+      this.coins.push({ mesh: coin, velocity, life: 1.5 });
       attachToCastleRoot(coin);
     }
+  }
+
+  private getPlayerPosition(): Vector3 {
+    const player = (this.world as any)?.player;
+    const obj = player?.object3D ?? player;
+    if (obj?.position) {
+      return new Vector3(obj.position.x, obj.position.y, obj.position.z);
+    }
+    return new Vector3(0, 0, -1.0);
   }
 
   private updateCoins(delta: number): void {

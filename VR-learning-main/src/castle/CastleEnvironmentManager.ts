@@ -105,6 +105,7 @@ export class CastleEnvironmentManager {
 
     this.active = true;
     (window as any).isCastleActive = true;
+    (window as any).jigsawPuzzleSolved = false;
     hideAllMarkers();
 
     this.savedClassroomVisibility = this.classroomObjects.map(object => ({
@@ -162,19 +163,38 @@ export class CastleEnvironmentManager {
 
     window.dispatchEvent(new CustomEvent("restoreClassroomSeat"));
 
+    // If the puzzle was solved, send the completed result so the instructor
+    // dashboard retains the correct score instead of overwriting it with 0.
+    const solved = (window as any).jigsawPuzzleSolved === true;
+    (window as any).jigsawPuzzleSolved = false;
+
+    const result = solved
+      ? {
+          status: "completed" as const,
+          score: 100,
+          streak: 1,
+          completedCards: 1,
+          totalCards: 1,
+          correctAnswers: 1,
+          wrongAnswers: 0,
+          accuracy: 100,
+          durationSeconds: 0,
+        }
+      : {
+          status: "incomplete" as const,
+          score: 0,
+          streak: 0,
+          completedCards: 0,
+          totalCards: 1,
+          correctAnswers: 0,
+          wrongAnswers: 0,
+          accuracy: 0,
+          durationSeconds: 0,
+        };
+
     socket.emit("labReturnConfirmed", {
-      reason,
-      result: {
-        status: "incomplete",
-        score: 0,
-        streak: 0,
-        completedCards: 0,
-        totalCards: 1,
-        correctAnswers: 0,
-        wrongAnswers: 0,
-        accuracy: 0,
-        durationSeconds: 0,
-      },
+      reason: solved ? "student_completed" : reason,
+      result,
     });
 
     console.log("[Castle] Returned to classroom.");
