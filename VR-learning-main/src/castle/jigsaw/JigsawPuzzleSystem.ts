@@ -551,31 +551,36 @@ export class JigsawPuzzleSystem extends createSystem({
     const obj = block.object3D!;
     obj.getWorldPosition(this.tmpVec);
 
-    const dx = this.tmpVec.x - BOARD_CENTER[0];
-    const dz = this.tmpVec.z - BOARD_CENTER[2];
-    const distToBoard = Math.sqrt(dx * dx + dz * dz);
-
-    if (distToBoard > 0.8 * S) {
+    // The board is a flat vertical wall at BOARD_CENTER[z]. DistanceGrabbable
+    // may release the block slightly in front of the wall, so use a generous
+    // z tolerance instead of a tight 3D distance from the board centre.
+    const dz = Math.abs(this.tmpVec.z - BOARD_CENTER[2]);
+    if (dz > 1.0) {
       this.returnBlockHome(block);
       return;
     }
 
-    let nearestSlot = -1;
+    // Check that the block is within the board's x-y bounds (with margin).
+    const dx = this.tmpVec.x - BOARD_CENTER[0];
+    const dy = this.tmpVec.y - BOARD_CENTER[1];
+    if (
+      Math.abs(dx) > BOARD_WIDTH / 2 + 0.15 * S ||
+      Math.abs(dy) > BOARD_HEIGHT / 2 + 0.15 * S
+    ) {
+      this.returnBlockHome(block);
+      return;
+    }
+
+    // All slots share the same x (board centre), so find the nearest slot
+    // by y position only.  If the block is anywhere on the board, snap it.
+    let nearestSlot = 0;
     let nearestDist = Infinity;
     for (let i = 0; i < NUM_SLOTS; i++) {
-      const sdx = this.tmpVec.x - this.slotPositions[i].x;
-      const sdy = this.tmpVec.y - this.slotPositions[i].y;
-      const sdz = this.tmpVec.z - this.slotPositions[i].z;
-      const d = Math.sqrt(sdx * sdx + sdy * sdy + sdz * sdz);
-      if (d < nearestDist) {
-        nearestDist = d;
+      const sdy = Math.abs(this.tmpVec.y - this.slotPositions[i].y);
+      if (sdy < nearestDist) {
+        nearestDist = sdy;
         nearestSlot = i;
       }
-    }
-
-    if (nearestSlot < 0 || nearestDist > 0.25 * S) {
-      this.returnBlockHome(block);
-      return;
     }
 
     const occupyingBlock = this.findBlockInSlot(nearestSlot);
