@@ -1280,6 +1280,17 @@ socket.on("registerClassroomClient", async data => {
     }
   }
 
+  // Clean up any old disconnected entries for this user that remain
+  // from a previous socket disconnect so the roster stays accurate.
+  for (const [oldSocketId, oldStudent] of Object.entries(students)) {
+    if (
+      Number(oldStudent.userId) === userId &&
+      oldSocketId !== socket.id
+    ) {
+      delete students[oldSocketId];
+    }
+  }
+
   // Create the cross-application connection record once.
 connectedUsers[userId] ??= {
   userId: databaseUser.id,
@@ -4247,11 +4258,13 @@ if (
       console.log(`[Server] Lab client disconnected: ${session.studentName}`);
     }
 
-    // A closed classroom session must release the avatar and seat marker even
-    // when the student disconnected while a lab was active. The final lab
-    // result was persisted above before this live representation is removed.
+    // Mark the student as disconnected instead of removing them entirely.
+    // This keeps the student visible in the instructor dashboard (shown as
+    // "Offline") so the online count reflects who is still connected while
+    // preserving the full class roster. The entry is cleaned up when the
+    // student reconnects via registerClassroomClient.
     if (students[socket.id]) {
-      delete students[socket.id];
+      students[socket.id].isDisconnected = true;
       io.emit("playerDisconnected", { id: socket.id });
       broadcastStudentList(io);
     }
