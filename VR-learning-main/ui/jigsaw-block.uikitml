@@ -1,0 +1,22 @@
+<style>
+  .block-face {
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0.5;
+    width: 110;
+    height: 11;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+  }
+  #code {
+    font-size: 4;
+    font-weight: bold;
+    color: #1a1a1a;
+    text-align: left;
+    white-space: pre;
+  }
+</style>
+<div class="block-face">
+  <div id="code">code</div>
+</div>

@@ -1,0 +1,55 @@
+<style>
+  .instructions-board {
+    padding: 3.75;
+    width: 75;
+    height: 100;
+    background-color: #f5f0e6;
+    border-color: #7a1f2b;
+    border-width: 0.5;
+    border-radius: 2;
+    display: flex;
+    flex-direction: column;
+  }
+  .instructions-title {
+    font-size: 4.4;
+    font-weight: bold;
+    color: #7a1f2b;
+  }
+  .instructions-body {
+    font-size: 2.75;
+    color: #2a2a2a;
+    margin-top: 1.875;
+    white-space: pre;
+  }
+  .instructions-given {
+    font-size: 2.75;
+    color: #2f5b8f;
+    margin-top: 1.875;
+    white-space: pre;
+    font-weight: bold;
+  }
+  .instructions-expected-label {
+    font-size: 2.75;
+    color: #2f6f4f;
+    margin-top: 1.875;
+    font-weight: bold;
+  }
+  .instructions-expected {
+    font-size: 2.75;
+    color: #2f6f4f;
+    margin-top: 0.625;
+    white-space: pre;
+  }
+</style>
+<div class="instructions-board">
+  <div class="instructions-title">Python Puzzle</div>
+  <div class="instructions-body">The lap times, in seconds, are given below. Use a for loop to print each lap on its own line. After the loop, print the total and the average, labeled as in the sample run.</div>
+  <div class="instructions-given">Given:  laps = [52, 50, 51, 47]</div>
+  <div class="instructions-expected-label">Expected Output:</div>
+  <div class="instructions-expected">52
+50
+51
+47
+Total: 200
+Average: 50.0</div>
+</div>
